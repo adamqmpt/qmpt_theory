@@ -5,13 +5,13 @@ Dark theme palette for the QMPT Lab IDE.
 from __future__ import annotations
 
 DARK_THEME = {
-    "bg": "#0f1115",
-    "panel": "#161921",
-    "accent": "#4dd0e1",
-    "accent_hover": "#26c6da",
-    "fg": "#e0e0e0",
+    "bg": "#0b0d11",
+    "panel": "#121620",
+    "accent": "#64ffda",
+    "accent_hover": "#52e0c0",
+    "fg": "#e6e6e6",
     "muted": "#9ea7ad",
-    "border": "#2b303a",
+    "border": "#273240",
     "danger": "#ef5350",
     "success": "#66bb6a",
 }

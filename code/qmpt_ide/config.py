@@ -25,10 +25,9 @@ class IDEConfig:
         default_factory=lambda: ["README.md", ".", "lab"]
     )
     theme: Dict[str, str] = field(default_factory=lambda: DARK_THEME.copy())
-    title: str = field(
-        default="QMPT Lab IDE"
-    )
+    title: str = field(default="QMPT Lab IDE")
     version: str = field(default_factory=lambda: __version__)
+    enable_simulation_stub: bool = True
 
     @classmethod
     def load(cls, path: Path | None) -> "IDEConfig":

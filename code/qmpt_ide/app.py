@@ -33,6 +33,8 @@ class IdeApp:
         self._build_styles()
         self._build_layout()
         self._populate_docs()
+        if self.config.enable_simulation_stub:
+            self._populate_simulation_stub()
 
     def _build_styles(self) -> None:
         """Create ttk styles aligned with the dark theme."""
@@ -170,6 +172,19 @@ class IdeApp:
         )
         self.note_editor.pack(fill=tk.BOTH, expand=False)
 
+        # Simulation stub panel
+        self.sim_frame = ttk.Frame(main, style="TFrame")
+        self.sim_frame.pack(fill=tk.X, pady=(8, 4))
+        ttk.Label(self.sim_frame, text="Simulation (planned)", font=FONT_TITLE).pack(
+            anchor=tk.W
+        )
+        self.sim_status = tk.StringVar(
+            value="Select a config to plan GPU/cluster run (future versions)."
+        )
+        ttk.Label(self.sim_frame, textvariable=self.sim_status, font=FONT_BASE).pack(
+            anchor=tk.W
+        )
+
         # Status/log
         status_frame = ttk.Frame(main, style="TFrame")
         status_frame.pack(fill=tk.X, pady=(6, 0))
@@ -196,6 +211,23 @@ class IdeApp:
             rel = path.relative_to(repo_root())
             self.doc_list.insert(tk.END, str(rel))
         self.status_var.set(f"Loaded {len(docs)} documents")
+
+    def _populate_simulation_stub(self) -> None:
+        """Placeholder for future simulation launcher."""
+        try:
+            cfg_dir = repo_root() / "config"
+            available = sorted(p.name for p in cfg_dir.glob("*.yaml")) + sorted(
+                p.name for p in cfg_dir.glob("*.json")
+            )
+            if available:
+                self.sim_status.set(
+                    f"Configs detected ({len(available)}): " + ", ".join(available[:5]) +
+                    (" ..." if len(available) > 5 else "")
+                )
+            else:
+                self.sim_status.set("No simulation configs found in config/.")
+        except Exception:
+            self.sim_status.set("Simulation stub could not scan configs.")
 
     def _on_doc_select(self, _event=None) -> None:
         """Load the selected document into the viewer."""
