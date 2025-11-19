@@ -340,7 +340,7 @@ Current files:
 
 ---
 
-### 5.6. QMPT Lab IDE (v0.1)
+### 5.6. QMPT Lab IDE (v0.1.1)
 
 - `code/qmpt_ide/` — Tkinter-based dark-theme IDE for quick QMPT experiments:
   - document browser for core `.md` files,
