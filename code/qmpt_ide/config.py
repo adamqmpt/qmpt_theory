@@ -28,6 +28,20 @@ class IDEConfig:
     title: str = field(default="QMPT Lab IDE")
     version: str = field(default_factory=lambda: __version__)
     enable_simulation_stub: bool = True
+    default_seed: int = 42
+    default_device: str = "cpu"
+    simulation_config_globs: List[str] = field(
+        default_factory=lambda: ["config/*.yaml", "config/*.json"]
+    )
+    note_template: str = (
+        "# Experiment\n"
+        "- Config: {config}\n"
+        "- Seed: {seed}\n"
+        "- Device: {device}\n"
+        "- Goal:\n"
+        "- Metrics: A(Ψ), R_norm(Ψ), σ_k(t)\n"
+        "- Notes:\n"
+    )
 
     @classmethod
     def load(cls, path: Path | None) -> "IDEConfig":

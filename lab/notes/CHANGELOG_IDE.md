@@ -1,5 +1,13 @@
 # QMPT Lab IDE – Changelog
 
+## v0.1.2 (current)
+- Markdown/math preview for notes (headings + inline `$...$` highlighting).
+- Simulation launcher stub:
+  - scans `config/*.yaml|*.json`,
+  - seed/device selectors,
+  - runs placeholder simulation and writes logs to `lab/logs/`.
+- Experiment template insertion in notes with auto-filled config/seed/device.
+
 ## v0.1.1 (planned)
 - Add simulation launch panel:
   - select scenario/config from `config/`,

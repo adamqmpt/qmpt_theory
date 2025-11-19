@@ -51,3 +51,14 @@ class WorkspaceState:
                         if len(results) >= limit:
                             return results
         return results
+
+    def new_log_path(self, prefix: str = "sim") -> Path:
+        """Return a unique log file path under logs_dir."""
+        self.ensure_dirs()
+        counter = 0
+        while True:
+            name = f"{prefix}_{counter:04d}.log"
+            candidate = self.logs_dir / name
+            if not candidate.exists():
+                return candidate
+            counter += 1

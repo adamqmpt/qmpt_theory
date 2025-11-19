@@ -10,6 +10,7 @@ Features:
 from __future__ import annotations
 
 import tkinter as tk
+import tkinter.font as tkfont
 from pathlib import Path
 from tkinter import ttk, messagebox, filedialog
 from typing import Optional
@@ -18,6 +19,7 @@ from .config import IDEConfig, load_config
 from .state import WorkspaceState, repo_root
 from .theme import DARK_THEME, FONT_BASE, FONT_MONO, FONT_TITLE
 from . import __version__
+from .sim_runner import SimulationRequest, run_simulation
 
 
 class IdeApp:
@@ -159,6 +161,11 @@ class IdeApp:
         )
         save_btn.pack(side=tk.LEFT)
 
+        template_btn = ttk.Button(
+            notes_frame, text="Insert template", style="Accent.TButton", command=self._insert_template
+        )
+        template_btn.pack(side=tk.LEFT, padx=(8, 0))
+
         self.note_editor = tk.Text(
             main,
             wrap=tk.WORD,
@@ -171,16 +178,68 @@ class IdeApp:
             highlightbackground=self.config.theme["border"],
         )
         self.note_editor.pack(fill=tk.BOTH, expand=False)
+        self.note_editor.bind("<<Modified>>", self._on_note_changed)
 
-        # Simulation stub panel
+        # Note preview
+        ttk.Label(main, text="Preview", font=FONT_TITLE).pack(anchor=tk.W)
+        self.note_preview = tk.Text(
+            main,
+            wrap=tk.WORD,
+            bg=self.config.theme["bg"],
+            fg=self.config.theme["fg"],
+            font=FONT_MONO,
+            insertbackground=self.config.theme["fg"],
+            height=10,
+            highlightthickness=1,
+            highlightbackground=self.config.theme["border"],
+            state="disabled",
+        )
+        self.note_preview.pack(fill=tk.BOTH, expand=False, pady=(4, 8))
+
+        # Simulation panel
         self.sim_frame = ttk.Frame(main, style="TFrame")
         self.sim_frame.pack(fill=tk.X, pady=(8, 4))
-        ttk.Label(self.sim_frame, text="Simulation (planned)", font=FONT_TITLE).pack(
+        ttk.Label(self.sim_frame, text="Simulation launcher", font=FONT_TITLE).pack(
             anchor=tk.W
         )
-        self.sim_status = tk.StringVar(
-            value="Select a config to plan GPU/cluster run (future versions)."
+
+        sim_controls = ttk.Frame(self.sim_frame, style="TFrame")
+        sim_controls.pack(fill=tk.X, pady=(4, 4))
+
+        ttk.Label(sim_controls, text="Config:", font=FONT_BASE).grid(row=0, column=0, sticky="w")
+        self.sim_config_var = tk.StringVar()
+        self.sim_config_combo = ttk.Combobox(
+            sim_controls, textvariable=self.sim_config_var, state="readonly", width=40
         )
+        self.sim_config_combo.grid(row=0, column=1, padx=6, pady=2, sticky="w")
+
+        ttk.Label(sim_controls, text="Seed:", font=FONT_BASE).grid(row=1, column=0, sticky="w")
+        self.seed_var = tk.StringVar(value=str(self.config.default_seed))
+        ttk.Entry(sim_controls, textvariable=self.seed_var, width=10).grid(
+            row=1, column=1, sticky="w", padx=6, pady=2
+        )
+
+        ttk.Label(sim_controls, text="Device:", font=FONT_BASE).grid(row=2, column=0, sticky="w")
+        self.device_var = tk.StringVar(value=self.config.default_device)
+        ttk.Combobox(
+            sim_controls,
+            textvariable=self.device_var,
+            values=["cpu", "gpu"],
+            width=10,
+            state="readonly",
+        ).grid(row=2, column=1, sticky="w", padx=6, pady=2)
+
+        run_btn = ttk.Button(
+            sim_controls, text="Run simulation", style="Accent.TButton", command=self._run_simulation
+        )
+        run_btn.grid(row=0, column=2, rowspan=3, padx=8, pady=2)
+
+        scan_btn = ttk.Button(
+            sim_controls, text="Rescan configs", style="Accent.TButton", command=self._populate_configs
+        )
+        scan_btn.grid(row=0, column=3, rowspan=3, padx=8, pady=2)
+
+        self.sim_status = tk.StringVar(value="Ready")
         ttk.Label(self.sim_frame, textvariable=self.sim_status, font=FONT_BASE).pack(
             anchor=tk.W
         )
@@ -277,12 +336,118 @@ class IdeApp:
             return
         self.status_var.set(f"Saved note to {target.relative_to(repo_root())}")
 
+    def _insert_template(self) -> None:
+        """Insert experiment template with current config/seed/device."""
+        template = self.config.note_template
+        templated = template.format(
+            config=self.sim_config_var.get() or "<config>",
+            seed=self.seed_var.get(),
+            device=self.device_var.get(),
+        )
+        self.note_editor.insert("1.0", templated)
+
+    def _on_note_changed(self, _event=None) -> None:
+        """Render markdown-like preview of the note editor."""
+        self.note_editor.edit_modified(0)
+        content = self.note_editor.get("1.0", tk.END)
+        self._render_preview(content)
+
+    def _render_preview(self, content: str) -> None:
+        """Very lightweight markdown/math preview."""
+        self.note_preview.configure(state="normal")
+        self.note_preview.delete("1.0", tk.END)
+        self.note_preview.insert(tk.END, content)
+
+        # Configure tags
+        h1_font = tkfont.Font(self.note_preview, self.note_preview.cget("font"))
+        h1_font.configure(size=13, weight="bold")
+        h2_font = tkfont.Font(self.note_preview, self.note_preview.cget("font"))
+        h2_font.configure(size=12, weight="bold")
+        math_font = tkfont.Font(self.note_preview, self.note_preview.cget("font"))
+        math_font.configure(slant="italic")
+
+        self.note_preview.tag_configure("h1", font=h1_font)
+        self.note_preview.tag_configure("h2", font=h2_font)
+        self.note_preview.tag_configure("math", font=math_font, foreground=self.config.theme["accent"])
+
+        # Apply heading tags
+        idx = "1.0"
+        while True:
+            line_start = f"{idx.split('.')[0]}.0"
+            line = self.note_preview.get(line_start, f"{line_start} lineend")
+            if not line:
+                break
+            if line.startswith("# "):
+                self.note_preview.tag_add("h1", line_start, f"{line_start} lineend")
+            elif line.startswith("## "):
+                self.note_preview.tag_add("h2", line_start, f"{line_start} lineend")
+            # Next line
+            next_line_num = int(line_start.split(".")[0]) + 1
+            if next_line_num > int(float(self.note_preview.index(tk.END))):
+                break
+            idx = f"{next_line_num}.0"
+
+        # Apply math tag for $...$
+        import re
+
+        for match in re.finditer(r"\$(.+?)\$", content, re.DOTALL):
+            start_idx = f"1.0 + {match.start()} chars"
+            end_idx = f"1.0 + {match.end()} chars"
+            self.note_preview.tag_add("math", start_idx, end_idx)
+
+        self.note_preview.configure(state="disabled")
+
+    def _populate_configs(self) -> None:
+        """Scan available simulation config files."""
+        configs = []
+        for pattern in self.config.simulation_config_globs:
+            configs.extend(Path(repo_root()).glob(pattern))
+        configs = [p for p in configs if p.is_file()]
+        configs = sorted(set(configs))
+        self.sim_configs = configs
+        self.sim_config_combo["values"] = [str(p.relative_to(repo_root())) for p in configs]
+        if configs:
+            self.sim_config_combo.current(0)
+            self.sim_status.set(f"Configs ready ({len(configs)} found).")
+        else:
+            self.sim_status.set("No configs found in config/.")
+
+    def _run_simulation(self) -> None:
+        """Run placeholder simulation and log results."""
+        if not hasattr(self, "sim_configs") or not self.sim_configs:
+            self.sim_status.set("No configs to run.")
+            return
+        selected = self.sim_config_combo.get()
+        if not selected:
+            self.sim_status.set("Select a config first.")
+            return
+        config_path = repo_root() / selected
+        try:
+            seed = int(self.seed_var.get())
+        except ValueError:
+            self.sim_status.set("Seed must be an integer.")
+            return
+        req = SimulationRequest(
+            config_path=config_path,
+            seed=seed,
+            device=self.device_var.get() or "cpu",
+        )
+        try:
+            result = run_simulation(req, self.state)
+        except Exception as exc:  # noqa: BLE001
+            self.sim_status.set(f"Run failed: {exc}")
+            return
+        self.sim_status.set(
+            f"Run ok: {result.metrics} (log {result.log_path.relative_to(repo_root())})"
+        )
+
     def run(self) -> None:
         self.root.mainloop()
 
 
 def main() -> None:
     app = IdeApp()
+    app._populate_configs()
     app.run()
 
 
