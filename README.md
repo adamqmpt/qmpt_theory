@@ -340,6 +340,21 @@ Current files:
 
 ---
 
+### 5.6. QMPT Lab IDE (v0.1)
+
+- `code/qmpt_ide/` — Tkinter-based dark-theme IDE for quick QMPT experiments:
+  - document browser for core `.md` files,
+  - read-only viewer,
+  - note editor saving to `lab/notes/`,
+  - status/log area.
+- `config/ide_default.json` — default UI and workspace settings.  
+  Override by passing a custom JSON path to `load_config`.
+- How to launch:  
+  `python -m code.qmpt_ide.app`
+- Notes and logs live under `lab/notes/` and `lab/logs/`.
+
+---
+
 ## 6. Intended use
 
 - **For humans**  
