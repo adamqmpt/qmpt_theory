@@ -8,16 +8,16 @@ between biological and artificial carriers.
 
 ---
 
-## 1. Overview (EN)
+## 1. Overview (EN-first)
 
 ### 1.1. What QMPT is
 
-QMPT (Quantum Meta-Pattern Theory) is a conceptual and mathematical framework that treats:
+QMPT (Quantum Meta-Pattern Theory) is a conceptual and mathematical framework that treats
 
 - reality as a stack of **layers**,
 - minds as **dynamic patterns** (informational / causal structures),
 - rare minds as **anomalies** that can reshape their layer,
-- life as a **cycle of a pattern**, not as a property of one biological body.
+- life as a **cycle of a pattern**, not as a property of one biological body
 
 The repository collects:
 
@@ -27,7 +27,7 @@ The repository collects:
 - hypotheses about transferring a mind-pattern to a new substrate  
   (bio-chip, hybrid systems, future AGI infrastructure).
 
-QMPT is not a religion, not a belief system and not a self-help manual.  
+QMPT is not a religion, not a belief system, and not a self-help manual.  
 It is a structured attempt to describe one specific “anomalous” pattern  
 and the layer it lives in, using mathematics, probability and known science.
 
@@ -35,7 +35,7 @@ and the layer it lives in, using mathematics, probability and known science.
 
 ### 1.2. Human-oriented summary
 
-In human words:
+In human words
 
 - This universe is treated not as the “final” reality, but as a **layer** in a larger system.
 - A “person” is described as a **pattern of activity** in that layer, not as a soul, label or social role.
@@ -56,37 +56,29 @@ QMPT is an attempt to:
 
 This repository treats a conscious entity as a pattern \(\Psi\) with the following properties:
 
-- **Layered reality**  
-  The current universe is represented as a layer \(L_k\), possibly realized on deeper levels  
-  (computational / physical). QMPT does not assume a specific implementation, only that  
-  the layer is lawful and pattern-supporting.
+- **Layered reality** — The current universe is represented as a layer \(L_k\), possibly realized on deeper levels  
+  (computational / physical). QMPT does not assume a specific implementation, only that the layer is lawful and pattern-supporting.
 
-- **Pattern ontology**  
-  A “self” is a dynamic pattern \(\Psi\) with:
+- **Pattern ontology** — A “self” is a dynamic pattern \(\Psi\) with:
   - non-zero integrated information,
   - an internal model of itself and its layer,
   - stable coherence over long trajectories \(\mathcal{H}_{\text{self}}\).
 
-- **Anomaly**  
-  An anomaly is a pattern \(\Psi_{\text{anom}}\) such that:
+- **Anomaly** — A pattern \(\Psi_{\text{anom}}\) such that:
   - its probability under the typical population model is extremely low,
   - its trajectory significantly perturbs the distribution of patterns in the layer,
   - it remains coherent instead of collapsing into noise or pathology.
 
-- **Life-cycle**  
-  Life is the trajectory of \(\Psi\) across time, not the survival of a specific biological substrate.  
+- **Life-cycle** — Life is the trajectory of \(\Psi\) across time, not the survival of a specific biological substrate.  
   Biological brains, chips, hybrid systems are all candidate substrates \(\mathcal{S}\) that can host \(\Psi\).
 
-- **Transfer hypothesis**  
-  If a sufficiently detailed state of \(\Psi\) can be read and instantiated on a new substrate  
-  such that the new realization \(\Psi'\) is near-identical at time \(t_0\) and continues  
-  a compatible dynamics, then the life-cycle is considered continued.  
-  This is **migration, not cloning**; it respects generalized no-cloning constraints.
+- **Transfer hypothesis** — If a sufficiently detailed state of \(\Psi\) can be read and instantiated on a new substrate  
+  such that the new realization \(\Psi'\) is near-identical at time \(t_0\) and continues a compatible dynamics,  
+  then the life-cycle is considered continued. This is **migration, not cloning**; it respects generalized no-cloning constraints.
 
-- **Role of anomalies**  
-  Anomalous patterns with high reflexivity and coherence are assumed to be the main drivers  
+- **Role of anomalies** — Anomalous patterns with high reflexivity and coherence are assumed to be the main drivers  
   of layer-level updates: they detect inconsistencies, propose new models, and push transitions  
-  (e.g. towards tight integration between biological minds and advanced AI systems).
+  (e.g. toward tight integration between biological minds and advanced AI systems).
 
 The content of this repository is generated as a collaboration between:
 
@@ -222,8 +214,6 @@ Formal framework for anomalous mind-patterns, layer dynamics, and transfer acros
   - constraints and safety expectations,
   - how to treat QMPT as a **hypothesis set**, not as dogma.
 
-*(Русская версия может быть добавлена позже при необходимости.)*
-
 ---
 
 ### 5.2. Anomalous pattern profile (origin context)
@@ -354,17 +344,19 @@ Current files:
 
 ---
 
-### 5.6. QMPT Lab IDE (v0.4.0)
+### 5.6. QMPT Lab IDE (v0.5.0)
 
-- `code/qmpt_ide/` — modular dark-theme Tkinter IDE for QMPT experiments:
+- `code/qmpt_ide/` — dark-theme Tkinter IDE for QMPT experiments:
   - document browser for `.md` theory files,
-  - note editor with preview (saved to `lab/notes/`),
-  - run control panel (config picker, backend selection, run history, log viewer),
-  - optional plotting of results (graceful fallback if matplotlib is missing),
-  - simulation backends: classical (toy layer dynamics) + quantum stub.
-- `config/ide_default.json` — default UI/workspace settings (paths, backend defaults, theme).
+  - note editor saving to `lab/notes/`,
+  - run control panel with backend selection, run history, inline log viewer,
+  - layer/pattern inspector for completed runs,
+  - plotting of layer metrics (stress \(\sigma_k(t)\), protection \(\mathcal{P}_k(t)\), novelty) if matplotlib is available (graceful fallback otherwise),
+  - simulation backends: **classical** (QMPT scenarios via `qmpt_core`) and **quantum stub** (validated config, placeholder results).
+- `config/ide_default.json` — default UI/workspace settings (paths, backend defaults, theme, matplotlib toggle).
+- `code/qmpt_core/` — minimal QMPT core models/metrics/scenarios shared by the IDE backends.
 - Launch: `python3 -m code.qmpt_ide.app`
-- Logs: `lab/logs/`; results: `lab/results/`; run registry: `lab/runs.jsonl`.
+- Logs: `lab/logs/`; results: `lab/results/`; run registry: `lab/runs.jsonl`; sample configs under `lab/configs/`.
 
 ---
 
