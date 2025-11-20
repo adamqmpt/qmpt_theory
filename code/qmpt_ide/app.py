@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import tkinter as tk
 import tkinter.font as tkfont
+from datetime import datetime
 from pathlib import Path
 from tkinter import ttk, messagebox, filedialog
 from typing import Optional
@@ -37,6 +38,8 @@ class IdeApp:
         self._populate_docs()
         if self.config.enable_simulation_stub:
             self._populate_simulation_stub()
+            self._populate_configs()
+        self._populate_run_history()
 
     def _build_styles(self) -> None:
         """Create ttk styles aligned with the dark theme."""
@@ -244,6 +247,39 @@ class IdeApp:
             anchor=tk.W
         )
 
+        # Run history + log viewer
+        history_frame = ttk.Frame(main, style="TFrame")
+        history_frame.pack(fill=tk.BOTH, expand=True, pady=(6, 4))
+        ttk.Label(history_frame, text="Run history", font=FONT_TITLE).pack(anchor=tk.W)
+        self.run_list = tk.Listbox(
+            history_frame,
+            bg=self.config.theme["panel"],
+            fg=self.config.theme["fg"],
+            selectbackground=self.config.theme["accent"],
+            selectforeground=self.config.theme["bg"],
+            activestyle="none",
+            height=4,
+            highlightthickness=1,
+            highlightbackground=self.config.theme["border"],
+        )
+        self.run_list.pack(fill=tk.X)
+        self.run_list.bind("<<ListboxSelect>>", self._on_run_select)
+
+        ttk.Label(history_frame, text="Log viewer", font=FONT_BASE).pack(anchor=tk.W, pady=(6, 0))
+        self.log_view = tk.Text(
+            history_frame,
+            wrap=tk.WORD,
+            bg=self.config.theme["bg"],
+            fg=self.config.theme["fg"],
+            font=FONT_MONO,
+            height=8,
+            state="disabled",
+            insertbackground=self.config.theme["fg"],
+            highlightthickness=1,
+            highlightbackground=self.config.theme["border"],
+        )
+        self.log_view.pack(fill=tk.BOTH, expand=True)
+
         # Status/log
         status_frame = ttk.Frame(main, style="TFrame")
         status_frame.pack(fill=tk.X, pady=(6, 0))
@@ -343,6 +379,8 @@ class IdeApp:
             config=self.sim_config_var.get() or "<config>",
             seed=self.seed_var.get(),
             device=self.device_var.get(),
+            timestamp=datetime.utcnow().isoformat(),
+            log_path=self._last_log_rel() or "<log>",
         )
         self.note_editor.insert("1.0", templated)
 
@@ -412,6 +450,45 @@ class IdeApp:
         else:
             self.sim_status.set("No configs found in config/.")
 
+    def _populate_run_history(self) -> None:
+        """List recent simulation logs."""
+        self.run_list.delete(0, tk.END)
+        for path in self.state.recent_runs:
+            rel = path.relative_to(repo_root())
+            self.run_list.insert(tk.END, f"{rel}")
+
+    def _on_run_select(self, _event=None) -> None:
+        """Display selected log content."""
+        selection = self.run_list.curselection()
+        if not selection:
+            return
+        idx = selection[0]
+        try:
+            path = self.state.recent_runs[idx]
+        except IndexError:
+            return
+        content = self.state.read_log(path)
+        self.log_view.configure(state="normal")
+        self.log_view.delete("1.0", tk.END)
+        if content is None:
+            self.log_view.insert(tk.END, f"Log not found: {path}")
+        else:
+            self.log_view.insert(tk.END, content)
+        self.log_view.configure(state="disabled")
+
+    def _last_log_rel(self) -> Optional[Path]:
+        """Return last log path relative to repo root if available."""
+        if self.state.recent_runs:
+            return self.state.recent_runs[0].relative_to(repo_root())
+        return None
+
+    def _populate_run_history(self) -> None:
+        """List recent simulation logs."""
+        self.run_list.delete(0, tk.END)
+        for path in self.state.recent_runs:
+            rel = path.relative_to(repo_root())
+            self.run_list.insert(tk.END, f"{rel}")
+
     def _run_simulation(self) -> None:
         """Run placeholder simulation and log results."""
         if not hasattr(self, "sim_configs") or not self.sim_configs:
@@ -440,6 +517,18 @@ class IdeApp:
         self.sim_status.set(
             f"Run ok: {result.metrics} (log {result.log_path.relative_to(repo_root())})"
         )
+        self.state.add_run(result.log_path, self.config.max_run_history)
+        self._populate_run_history()
+        if self.config.auto_insert_metadata:
+            templated = self.config.note_template.format(
+                config=self.sim_config_var.get() or "<config>",
+                seed=self.seed_var.get(),
+                device=self.device_var.get(),
+                timestamp=datetime.utcnow().isoformat(),
+                log_path=result.log_path.relative_to(repo_root()),
+            )
+            self.note_editor.insert("1.0", templated + "\n")
+            self._render_preview(self.note_editor.get("1.0", tk.END))
 
     def run(self) -> None:
         self.root.mainloop()

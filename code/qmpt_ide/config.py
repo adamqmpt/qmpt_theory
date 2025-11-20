@@ -38,10 +38,14 @@ class IDEConfig:
         "- Config: {config}\n"
         "- Seed: {seed}\n"
         "- Device: {device}\n"
+        "- Timestamp: {timestamp}\n"
+        "- Log: {log_path}\n"
         "- Goal:\n"
         "- Metrics: A(Ψ), R_norm(Ψ), σ_k(t)\n"
         "- Notes:\n"
     )
+    max_run_history: int = 20
+    auto_insert_metadata: bool = True
 
     @classmethod
     def load(cls, path: Path | None) -> "IDEConfig":

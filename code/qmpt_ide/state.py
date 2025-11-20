@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 
 def repo_root() -> Path:
@@ -21,6 +21,7 @@ class WorkspaceState:
     notes_dir: Path = field(default_factory=lambda: repo_root() / "lab" / "notes")
     logs_dir: Path = field(default_factory=lambda: repo_root() / "lab" / "logs")
     recent_docs: List[Path] = field(default_factory=list)
+    recent_runs: List[Path] = field(default_factory=list)
 
     def ensure_dirs(self) -> None:
         """Create required directories if they do not exist."""
@@ -35,6 +36,15 @@ class WorkspaceState:
         self.recent_docs.insert(0, path)
         if len(self.recent_docs) > max_items:
             self.recent_docs = self.recent_docs[:max_items]
+
+    def add_run(self, log_path: Path, max_items: int) -> None:
+        """Track recently produced simulation logs."""
+        log_path = log_path.resolve()
+        if log_path in self.recent_runs:
+            self.recent_runs.remove(log_path)
+        self.recent_runs.insert(0, log_path)
+        if len(self.recent_runs) > max_items:
+            self.recent_runs = self.recent_runs[:max_items]
 
     def discover_docs(self, roots: List[str], limit: int = 50) -> List[Path]:
         """Return a list of markdown/text files under provided roots."""
@@ -62,3 +72,10 @@ class WorkspaceState:
             if not candidate.exists():
                 return candidate
             counter += 1
+
+    def read_log(self, path: Path) -> Optional[str]:
+        """Read a log file if it exists."""
+        try:
+            return path.read_text(encoding="utf-8")
+        except FileNotFoundError:
+            return None

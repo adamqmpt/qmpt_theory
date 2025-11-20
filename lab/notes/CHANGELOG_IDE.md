@@ -1,6 +1,13 @@
 # QMPT Lab IDE – Changelog
 
-## v0.1.2 (current)
+## v0.2.0 (current)
+- Run history + log viewer in IDE.
+- Auto metadata insertion (timestamp, config, log path) into note template on runs.
+- Note template now includes timestamp and log path placeholders.
+- Configurable max run history.
+- Version bumped to 0.2.0.
+
+## v0.1.2
 - Markdown/math preview for notes (headings + inline `$...$` highlighting).
 - Simulation launcher stub:
   - scans `config/*.yaml|*.json`,
