@@ -41,6 +41,13 @@ class MainWindow(ttk.Frame):
         notes.pack(fill=tk.BOTH, expand=True)
 
         self.plot_panel = PlotPanel(right, state)
+        self.layer_panel = ttk.Frame(right)
+        self.layer_panel.pack(fill=tk.BOTH, expand=True)
+        from .ui_layer import LayerInspector
+
+        self.layer_inspector = LayerInspector(self.layer_panel, state.config.theme)
+        self.layer_inspector.pack(fill=tk.BOTH, expand=True)
+
         runs = RunsPanel(right, state, on_plot=self._plot_results)
         runs.pack(fill=tk.BOTH, expand=True)
         self.plot_panel.pack(fill=tk.BOTH, expand=True)
@@ -55,3 +62,4 @@ class MainWindow(ttk.Frame):
 
     def _plot_results(self, result_dir):
         self.plot_panel.show(result_dir)
+        self.layer_inspector.load_run(result_dir)

@@ -1,4 +1,4 @@
-# QMPT Lab IDE (v0.4.0)
+# QMPT Lab IDE (v0.5.0)
 
 Dark-theme Tkinter IDE for QMPT experiments. Architecture is modular:
 
@@ -43,12 +43,23 @@ python3 -m code.qmpt_ide.app
    - History lists runs; log viewer shows log content.
    - Plot panel saves plots to `lab/results/<run>/plot.png` if matplotlib is available.
 
+## QMPT core integration
+
+- Core package: `code/qmpt_core` (models, metrics, scenarios, IO).
+- Classical backend runs scenarios (baseline, anomaly injection, self-aware anomaly) and computes toy QMPT metrics.
+- Results stored under `lab/results/<run_id>/`:
+  - `metrics.json` (summary + scenario/seed/backend),
+  - `timeseries.npz` (t, stress, protection, novelty),
+  - `patterns.json` (anomaly/reflexivity/self-operator snapshots),
+  - optional `plot.png` if matplotlib is available.
+- Run logs under `lab/logs/<run_id>.log`; registry `lab/runs.jsonl`.
+
 ## Roadmap (summary)
 
-- v0.4.x: modular UI, classical pipeline (toy layer dynamics), run registry, plotting.
-- v0.5: real QMPT metrics \(A(\Psi), R_\text{norm}(\Psi), \mathcal{O}_\text{self}(\Psi)\); richer config schema; CLI helpers.
-- v0.6: quantum backend integration (Qiskit/Cirq stub → real), config presets for classical vs quantum.
-- v1.0: stable API between IDE and backends, end-to-end examples, localization (EN/RU) for UI strings.
+- v0.5.0: QMPT core integration, scenario-based classical runs, quantum stub config.
+- v0.6.x: real quantum backend, richer scenarios, backend telemetry.
+- v0.7.x: localization (EN/RU), backend plugins, richer viz.
+- v1.0: stable API, full workflows, hardened tests/docs.
 
 ## Notes
 

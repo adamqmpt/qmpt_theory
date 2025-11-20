@@ -1,0 +1,13 @@
+{
+  "backend": "quantum",
+  "experiment_type": "layer_dynamics",
+  "scenario": "baseline_layer",
+  "seed": 999,
+  "logs_dir": "lab/logs",
+  "results_dir": "lab/results",
+  "quantum": {
+    "language": "qiskit_dsl",
+    "program_path": "lab/quantum/experiment1.qmptq",
+    "shots": 1024
+  }
+}

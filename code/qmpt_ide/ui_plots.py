@@ -48,13 +48,15 @@ class PlotPanel(ttk.Frame):
             self._write("No timeseries available to plot.")
             return
         data = np.load(npz_path)
-        t = np.arange(len(data["sigma"])) * float(data.get("dt", 1.0))
-        fig, ax = plt.subplots(2, 1, figsize=(5, 4))
-        ax[0].plot(t, data["sigma"], label="sigma")
+        t = data["t"]
+        fig, ax = plt.subplots(3, 1, figsize=(5, 5))
+        ax[0].plot(t, data["stress"], label="stress")
         ax[0].set_ylabel("σ_k")
-        ax[1].plot(t, data["capacity"], label="capacity", color="orange")
-        ax[1].set_ylabel("C")
-        ax[1].set_xlabel("t")
+        ax[1].plot(t, data["protection"], label="protection", color="orange")
+        ax[1].set_ylabel("P_k")
+        ax[2].plot(t, data["novelty"], label="novelty", color="green")
+        ax[2].set_ylabel("novelty")
+        ax[2].set_xlabel("t")
         fig.tight_layout()
         img_path = result_dir / "plot.png"
         fig.savefig(img_path)

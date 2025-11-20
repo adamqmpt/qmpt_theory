@@ -1,0 +1,10 @@
+{
+  "backend": "classical",
+  "experiment_type": "layer_dynamics",
+  "scenario": "single_anomaly_injection",
+  "seed": 123,
+  "horizon": 100,
+  "dt": 1.0,
+  "logs_dir": "lab/logs",
+  "results_dir": "lab/results"
+}

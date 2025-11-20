@@ -1,22 +1,18 @@
 # QMPT Lab IDE Roadmap
 
-- **v0.4.x (current)**
-  - Modular UI (docs, notes, runs, plots).
-  - Classical simulation pipeline (toy layer dynamics): logs + results + metrics.
-  - Run registry (JSONL), log viewer, optional matplotlib plots.
-  - Backend abstraction (classical + quantum stub).
+## Roadmap
 
-- **v0.5**
-  - Implement real QMPT metrics \(A(\Psi), R_\text{norm}(\Psi), \mathcal{O}_\text{self}(\Psi)\) in classical backend.
-  - UI for inspecting pattern-level metrics and layer trajectories \(\mathcal{S}_k(t)\).
-  - Export results to CSV/JSON from UI.
+- **v0.4.x**  
+  Modular UI (docs, notes, runs, plots), classical toy pipeline, run registry, quantum stub.
 
-- **v0.6**
-  - Quantum backend integration (Qiskit/Cirq or similar).
-  - Presets comparing classical vs quantum toy experiments.
-  - Basic resource/telemetry display for backends (CPU/GPU/qubits).
+- **v0.5.0 (current)**  
+  Integrate QMPT core (patterns/layers/metrics); scenario-based classical runs; quantum stub config shape; layer/pattern inspector; sample configs and tests.
 
-- **v1.0**
-  - Stable API between IDE and backends.
-  - Documented workflows (theory → config → run → metrics → interpretation).
-  - Improved error handling, tests, localization (EN/RU), and packaging.
+- **v0.6.x**  
+  Real quantum backend (Qiskit/Cirq or similar), richer scenarios, presets for classical vs quantum comparison, basic backend telemetry.
+
+- **v0.7.x**  
+  Localization (EN/RU UI), plugin system for custom backends, richer visualization.
+
+- **v1.0**  
+  Stable IDE ↔ backend API, documented workflows from theory to experiment, improved error handling/tests, packaging.
