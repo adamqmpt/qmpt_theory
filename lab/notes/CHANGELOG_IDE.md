@@ -1,6 +1,12 @@
 # QMPT Lab IDE – Changelog
 
-## v0.2.0 (current)
+## v0.3.0 (current)
+- Run history shows statuses; in-app log viewer remains.
+- Sim runs now preallocate log paths, track status map, and write richer metadata.
+- Templates auto-fill timestamp and log; status updates visible in list.
+- Version bumped to 0.3.0; added bilingual `code/README.md`.
+
+## v0.2.0
 - Run history + log viewer in IDE.
 - Auto metadata insertion (timestamp, config, log path) into note template on runs.
 - Note template now includes timestamp and log path placeholders.

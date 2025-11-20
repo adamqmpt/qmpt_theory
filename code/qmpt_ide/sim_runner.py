@@ -15,7 +15,7 @@ import random
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 from .state import WorkspaceState
 
@@ -35,7 +35,13 @@ class SimulationResult:
     status: str
 
 
-def run_simulation(req: SimulationRequest, workspace: WorkspaceState) -> SimulationResult:
+def run_simulation(
+    req: SimulationRequest,
+    workspace: WorkspaceState,
+    log_path: Optional[Path] = None,
+    steps: int = 3,
+    delay_s: float = 0.1,
+) -> SimulationResult:
     """
     Run a placeholder simulation and write metrics to a log file.
 
@@ -43,7 +49,8 @@ def run_simulation(req: SimulationRequest, workspace: WorkspaceState) -> Simulat
     """
     workspace.ensure_dirs()
     random.seed(req.seed)
-    log_path = workspace.new_log_path(prefix="sim")
+    if log_path is None:
+        log_path = workspace.new_log_path(prefix="sim")
     start = time.time()
 
     # Placeholder metrics: emulate anomaly/reflexivity/stress ranges.
@@ -53,7 +60,11 @@ def run_simulation(req: SimulationRequest, workspace: WorkspaceState) -> Simulat
         "sigma_k": round(random.uniform(0.1, 0.9), 3),
         "duration_s": 0.0,
     }
-    time.sleep(0.05)  # tiny delay to emulate work
+    # Emit step-by-step progress
+    progress = []
+    for step in range(steps):
+        progress.append({"step": step + 1, "total": steps, "status": "running"})
+        time.sleep(delay_s)
     duration = time.time() - start
     metrics["duration_s"] = round(duration, 3)
 
@@ -63,6 +74,7 @@ def run_simulation(req: SimulationRequest, workspace: WorkspaceState) -> Simulat
         "device": req.device,
         "status": "ok",
         "metrics": metrics,
+        "progress": progress,
     }
     log_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     return SimulationResult(

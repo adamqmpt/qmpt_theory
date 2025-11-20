@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Dict
 
 
 def repo_root() -> Path:
@@ -22,6 +22,7 @@ class WorkspaceState:
     logs_dir: Path = field(default_factory=lambda: repo_root() / "lab" / "logs")
     recent_docs: List[Path] = field(default_factory=list)
     recent_runs: List[Path] = field(default_factory=list)
+    run_status: Dict[Path, str] = field(default_factory=dict)
 
     def ensure_dirs(self) -> None:
         """Create required directories if they do not exist."""
@@ -45,6 +46,7 @@ class WorkspaceState:
         self.recent_runs.insert(0, log_path)
         if len(self.recent_runs) > max_items:
             self.recent_runs = self.recent_runs[:max_items]
+        self.run_status[log_path] = self.run_status.get(log_path, "done")
 
     def discover_docs(self, roots: List[str], limit: int = 50) -> List[Path]:
         """Return a list of markdown/text files under provided roots."""

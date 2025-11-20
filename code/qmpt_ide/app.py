@@ -28,6 +28,7 @@ class IdeApp:
         self.config = config or load_config()
         self.state = state or WorkspaceState()
         self.state.ensure_dirs()
+        self._run_status: dict[Path, str] = {}
         self.root = tk.Tk()
         self.root.title(f"{self.config.title} v{self.config.version}")
         self.root.geometry(f"{self.config.window_width}x{self.config.window_height}")
@@ -455,7 +456,8 @@ class IdeApp:
         self.run_list.delete(0, tk.END)
         for path in self.state.recent_runs:
             rel = path.relative_to(repo_root())
-            self.run_list.insert(tk.END, f"{rel}")
+            status = self.state.run_status.get(path, "done")
+            self.run_list.insert(tk.END, f"[{status}] {rel}")
 
     def _on_run_select(self, _event=None) -> None:
         """Display selected log content."""
@@ -487,7 +489,8 @@ class IdeApp:
         self.run_list.delete(0, tk.END)
         for path in self.state.recent_runs:
             rel = path.relative_to(repo_root())
-            self.run_list.insert(tk.END, f"{rel}")
+            status = self.state.run_status.get(path, "done")
+            self.run_list.insert(tk.END, f"[{status}] {rel}")
 
     def _run_simulation(self) -> None:
         """Run placeholder simulation and log results."""
@@ -510,7 +513,11 @@ class IdeApp:
             device=self.device_var.get() or "cpu",
         )
         try:
-            result = run_simulation(req, self.state)
+            log_path = self.state.new_log_path(prefix="sim")
+            self.state.run_status[log_path] = "running"
+            self.state.add_run(log_path, self.config.max_run_history)
+            self._populate_run_history()
+            result = run_simulation(req, self.state, log_path=log_path, steps=4, delay_s=0.1)
         except Exception as exc:  # noqa: BLE001
             self.sim_status.set(f"Run failed: {exc}")
             return
@@ -518,6 +525,7 @@ class IdeApp:
             f"Run ok: {result.metrics} (log {result.log_path.relative_to(repo_root())})"
         )
         self.state.add_run(result.log_path, self.config.max_run_history)
+        self.state.run_status[result.log_path] = result.status
         self._populate_run_history()
         if self.config.auto_insert_metadata:
             templated = self.config.note_template.format(
