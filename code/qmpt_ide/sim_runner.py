@@ -296,7 +296,11 @@ class SimulationRunner:
         ds_root.mkdir(parents=True, exist_ok=True)
         (ds_root / "dataset_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
         ensemble_metrics = core_metrics.compute_ensemble_summary(metrics_list)
+        ensemble_metrics["metrics_schema_version"] = core_metrics.METRICS_SCHEMA_VERSION
         (ds_root / "ensemble_metrics.json").write_text(json.dumps(ensemble_metrics, indent=2), encoding="utf-8")
+        ens_dir = ds_root / "ensembles" / dataset_id
+        ens_dir.mkdir(parents=True, exist_ok=True)
+        (ens_dir / "metrics.json").write_text(json.dumps(ensemble_metrics, indent=2), encoding="utf-8")
 
     def _expand_ensemble(self, cfg: Dict[str, Any]) -> List[Dict[str, Any]]:
         ens = cfg.get("ensemble", {})

@@ -52,6 +52,7 @@ class RunsPanel(ttk.Frame):
         ttk.Label(ensemble_frame, text="Dataset note").grid(row=0, column=3, padx=4)
         self.dataset_desc = ttk.Entry(ensemble_frame, width=25)
         self.dataset_desc.grid(row=0, column=4, padx=2, sticky="w")
+        ttk.Button(ensemble_frame, text="Templates", command=self._write_templates).grid(row=0, column=5, padx=4)
 
         ttk.Label(self, text="Run history").pack(anchor=tk.W, pady=(8, 2))
         self.history = tk.Listbox(
@@ -173,3 +174,43 @@ class RunsPanel(ttk.Frame):
             threading.Thread(
                 target=self._run_thread, args=(config_path, backend), daemon=True
             ).start()
+
+    def _write_templates(self) -> None:
+        """Create scenario template configs for quick access."""
+        base = repo_root()
+        templates = {
+            "anomaly_injection_classical.json": {
+                "backend": "classical",
+                "scenario": "anomaly_injection",
+                "experiment_type": "layer_dynamics",
+                "inject_step": 10,
+                "anomaly_level": 0.8,
+                "horizon": 40,
+                "dt": 1.0
+            },
+            "layer_collapse_recovery_hybrid.json": {
+                "backend": "hybrid",
+                "scenario": "collapse_recovery",
+                "experiment_type": "hybrid_layer_cycle",
+                "horizon": 30,
+                "dt": 1.0,
+                "probe_interval": 5
+            },
+            "transfer_cycle_classical.json": {
+                "backend": "classical",
+                "scenario": "transfer_cycle",
+                "experiment_type": "layer_dynamics",
+                "substrates": ["S1", "S2", "S3"],
+                "substrate_noise": [0.05, 0.08, 0.1],
+                "horizon": 3,
+                "dt": 1.0
+            }
+        }
+        cfg_dir = base / "lab" / "configs"
+        cfg_dir.mkdir(parents=True, exist_ok=True)
+        for name, cfg in templates.items():
+            path = cfg_dir / name
+            try:
+                path.write_text(json.dumps(cfg, indent=2), encoding="utf-8")
+            except Exception:
+                continue

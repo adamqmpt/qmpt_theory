@@ -5,10 +5,12 @@ Shape follows QMPT specs: A(Ψ), R_norm(Ψ), O_self(Ψ).
 
 from __future__ import annotations
 
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple
 import numpy as np
 
 from .models import Pattern
+
+METRICS_SCHEMA_VERSION = "0.2"
 
 
 def estimate_anomaly(patterns: List[Pattern]) -> None:
@@ -99,6 +101,11 @@ def compute_run_metrics(timeseries: Dict[str, Any], config: Dict[str, Any]) -> D
     if entropy is not None and entropy.size > 0:
         metrics["entropy_mean"] = float(np.mean(entropy))
         metrics["entropy_std"] = float(np.std(entropy))
+    # Ground truth comparisons (if provided)
+    gt_anom = _arr(timeseries, ["anomaly_ground_truth", "anomaly_gt"])
+    if gt_anom is not None and anomaly_idx is not None and gt_anom.size == anomaly_idx.size:
+        metrics.update(_calibration_stats(anomaly_idx, gt_anom, threshold=config.get("anomaly_threshold", 0.5)))
+    metrics["metrics_schema_version"] = METRICS_SCHEMA_VERSION
     return metrics
 
 
@@ -124,6 +131,10 @@ def compute_ensemble_summary(run_metrics_list: List[Dict[str, float]]) -> Dict[s
     high_sigma = [m["max_sigma"] for m in run_metrics_list if "max_sigma" in m]
     if high_sigma:
         agg["near_breakdown_runs"] = int(np.sum(np.array(high_sigma) > 0.9))
+    # simple percentile bootstrap CI for anomaly_mean if available
+    anoms = [m["anomaly_mean"] for m in run_metrics_list if "anomaly_mean" in m]
+    if anoms:
+        agg.update(_bootstrap_ci(np.array(anoms, dtype=float), "anomaly_mean"))
     return agg
 
 
@@ -132,3 +143,39 @@ def _arr(timeseries: Dict[str, Any], keys: List[str]):
         if k in timeseries:
             return np.array(timeseries[k])
     return None
+
+
+def _calibration_stats(pred: np.ndarray, truth: np.ndarray, threshold: float = 0.5) -> Dict[str, float]:
+    pred = np.array(pred, dtype=float)
+    truth = np.array(truth, dtype=float)
+    mse = float(np.mean((pred - truth) ** 2))
+    bias = float(np.mean(pred - truth))
+    # simple classification threshold
+    pred_bin = pred >= threshold
+    truth_bin = truth >= threshold
+    tp = float(np.sum(pred_bin & truth_bin))
+    fp = float(np.sum(pred_bin & ~truth_bin))
+    fn = float(np.sum(~pred_bin & truth_bin))
+    tn = float(np.sum(~pred_bin & ~truth_bin))
+    total = tp + fp + fn + tn + 1e-9
+    return {
+        "calib_mse": mse,
+        "calib_bias": bias,
+        "calib_tp_rate": tp / (tp + fn + 1e-9),
+        "calib_fp_rate": fp / (fp + tn + 1e-9),
+        "calib_accuracy": (tp + tn) / total,
+        "calibration_samples": float(len(pred)),
+    }
+
+
+def _bootstrap_ci(arr: np.ndarray, prefix: str, n_boot: int = 200, alpha: float = 0.05) -> Dict[str, float]:
+    rng = np.random.default_rng(0)
+    n = len(arr)
+    boot_means = []
+    for _ in range(n_boot):
+        sample = rng.choice(arr, size=n, replace=True)
+        boot_means.append(np.mean(sample))
+    boot_means = np.sort(boot_means)
+    lo = boot_means[int((alpha / 2) * n_boot)]
+    hi = boot_means[int((1 - alpha / 2) * n_boot)]
+    return {f"{prefix}_ci_low": float(lo), f"{prefix}_ci_high": float(hi)}

@@ -56,3 +56,37 @@ def test_classical_ensemble(tmp_path: Path) -> None:
     assert len(results) >= 2
     ds_manifest = root / "lab" / "datasets" / dataset_id / "dataset_manifest.json"
     assert ds_manifest.exists()
+
+
+def test_new_scenarios_run(tmp_path: Path) -> None:
+    # Anomaly injection
+    cfg_anom = {
+        "backend": "classical",
+        "scenario": "anomaly_injection",
+        "horizon": 10,
+        "dt": 1.0,
+        "inject_step": 3,
+    }
+    registry = RunRegistry(tmp_path / "runs.jsonl")
+    runner = SimulationRunner(registry)
+    res1 = runner.run_config(cfg_anom, BackendType.CLASSICAL)
+    assert (res1.results_path / "metrics.json").exists()
+
+    # Collapse recovery
+    cfg_collapse = {
+        "backend": "classical",
+        "scenario": "collapse_recovery",
+        "horizon": 8,
+    }
+    res2 = runner.run_config(cfg_collapse, BackendType.CLASSICAL)
+    assert (res2.results_path / "metrics.json").exists()
+
+    # Transfer cycle
+    cfg_transfer = {
+        "backend": "classical",
+        "scenario": "transfer_cycle",
+        "substrates": ["S1", "S2"],
+        "substrate_noise": [0.1, 0.15],
+    }
+    res3 = runner.run_config(cfg_transfer, BackendType.CLASSICAL)
+    assert (res3.results_path / "metrics.json").exists()

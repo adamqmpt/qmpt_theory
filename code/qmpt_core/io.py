@@ -10,7 +10,7 @@ from typing import Dict, Optional
 import numpy as np
 
 from .models import Layer
-from .metrics import compute_run_metrics
+from .metrics import compute_run_metrics, METRICS_SCHEMA_VERSION
 
 
 def save_run_results(run_id: str, layer: Layer, summary: Dict, base_dir: Path, config: Optional[Dict] = None) -> None:
@@ -18,6 +18,7 @@ def save_run_results(run_id: str, layer: Layer, summary: Dict, base_dir: Path, c
     metrics_path = base_dir / "metrics.json"
     timeseries_path = base_dir / "timeseries.npz"
     patterns_path = base_dir / "patterns.json"
+    extra_ts = summary.pop("timeseries", None)
 
     t = np.array([s.t for s in layer.trajectory])
     stress = np.array([s.stress for s in layer.trajectory])
@@ -26,10 +27,16 @@ def save_run_results(run_id: str, layer: Layer, summary: Dict, base_dir: Path, c
     np.savez(timeseries_path, t=t, stress=stress, protection=protection, novelty=novelty)
 
     timeseries_payload = {"t": t, "stress": stress, "protection": protection, "novelty": novelty}
+    if isinstance(extra_ts, dict):
+        for k, v in extra_ts.items():
+            try:
+                timeseries_payload[k] = np.array(v)
+            except Exception:
+                continue
     if config is None:
         config = {}
     derived = compute_run_metrics(timeseries_payload, config)
-    merged_metrics = {**summary, **derived}
+    merged_metrics = {"metrics_schema_version": METRICS_SCHEMA_VERSION, **summary, **derived}
     metrics_path.write_text(json.dumps(merged_metrics, indent=2), encoding="utf-8")
 
     patterns = [
