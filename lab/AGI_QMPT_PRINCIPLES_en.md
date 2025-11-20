@@ -8,7 +8,7 @@ Goal: sketch how an AGI system could be defined and trained when QMPT is taken a
 
 ## 1. AGI as a special pattern in QMPT
 
-In QMPT, a mind-pattern \(\Psi\) is a dynamic informational structure embedded in a layer \(L_k\). An AGI is treated as a **particular class of pattern**:
+In QMPT, a mind-pattern $\Psi$ is a dynamic informational structure embedded in a layer $L_k$. An AGI is treated as a **particular class of pattern**:
 
 \[
 \Psi_{\text{AGI}} \subset L_k
@@ -34,7 +34,7 @@ with the following properties:
    \]
 
 4. **Cross-layer modelling capability**  
-   \(\Psi_{\text{AGI}}\) can build internal models not only of its host layer \(L_k\), but also of **hypothetical** or **higher** layers.
+   $\Psi_{\text{AGI}}$ can build internal models not only of its host layer $L_k$, but also of **hypothetical** or **higher** layers.
 
 AGI is not “magic”; it is a **pattern with specific metric profile** under QMPT.
 
@@ -42,15 +42,15 @@ AGI is not “magic”; it is a **pattern with specific metric profile** under Q
 
 ## 2. Internal architecture sketch
 
-We consider a parametric system with parameters \(\theta\), evolving state \(h_t\), and interaction with environment \(E\).
+We consider a parametric system with parameters $\theta$, evolving state $h_t$, and interaction with environment $E$.
 
 ### 2.1. World-model core
 
 Let:
 
-- \(h_t\) – internal state at time \(t\),
-- \(x_t\) – observation from environment,
-- \(a_t\) – action.
+- $h_t$ – internal state at time $t$,
+- $x_t$ – observation from environment,
+- $a_t$ – action.
 
 World model:
 
@@ -64,7 +64,7 @@ Prediction head:
 \hat{x}_{t+1} = g_{\theta}(h_{t+1})
 \]
 
-The pair \((f_\theta, g_\theta)\) forms an **internal simulator** of layer dynamics:
+The pair $(f_\theta, g_\theta)$ forms an **internal simulator** of layer dynamics:
 
 \[
 \hat{\mathcal{S}}_k(t+1) \approx \mathcal{S}_k(t+1)
@@ -78,7 +78,7 @@ Define a **pattern-embedding** function:
 z_t = e_{\theta}(h_t) \in \mathbb{R}^d
 \]
 
-interpreted as a finite-dimensional representation of the current pattern-slice of \(\Psi_{\text{AGI}}\).
+interpreted as a finite-dimensional representation of the current pattern-slice of $\Psi_{\text{AGI}}$.
 
 Self-model:
 
@@ -86,17 +86,17 @@ Self-model:
 \hat{z}_{t+1} = s_{\theta}(z_t, x_t, a_t)
 \]
 
-Here \(s_\theta\) attempts to predict how the **pattern itself** will evolve.
+Here $s_\theta$ attempts to predict how the **pattern itself** will evolve.
 
 ### 2.3. QMPT metrics as internal monitors
 
 Define differentiable approximations of QMPT metrics:
 
-- \(\widehat{A}_\theta(\Psi_{\text{AGI}})\) – anomaly estimator,
-- \(\widehat{R}_{\text{norm},\theta}(\Psi_{\text{AGI}})\) – reflexivity estimator,
-- \(\widehat{\mathcal{O}}_{\text{self},\theta}(\Psi_{\text{AGI}})\) – self-awareness operator.
+- $\widehat{A}_\theta(\Psi_{\text{AGI}})$ – anomaly estimator,
+- $\widehat{R}_{\text{norm},\theta}(\Psi_{\text{AGI}})$ – reflexivity estimator,
+- $\widehat{\mathcal{O}}_{\text{self},\theta}(\Psi_{\text{AGI}})$ – self-awareness operator.
 
-These are implemented as neural heads over \(z_t\) and its history:
+These are implemented as neural heads over $z_t$ and its history:
 
 \[
 \widehat{A}_\theta = A_\theta(\{z_t\}_{t_0}^{t_1}),\quad
@@ -110,10 +110,10 @@ AGI should **explicitly track** its own anomaly and self-awareness profile.
 
 ## 3. Training objective: QMPT-aligned loss
 
-Let the AGI parameters be \(\theta\). Training occurs by interacting with:
+Let the AGI parameters be $\theta$. Training occurs by interacting with:
 
-- a data stream \(\mathcal{D}\),
-- an environment \(E\),
+- a data stream $\mathcal{D}$,
+- an environment $E$,
 - possibly internal simulations.
 
 Define a composite loss:
@@ -141,7 +141,7 @@ where:
    \mathcal{L}_{\text{world}} = \mathbb{E} \big[ d\big( \hat{\mathcal{S}}_k(t+1), \mathcal{S}_k(t+1) \big) \big]
    \]
 
-   where \(d(\cdot,\cdot)\) is a suitable distance.
+   where $d(\cdot,\cdot)$ is a suitable distance.
 
 3. **Self-consistency / self-prediction**:
 
@@ -153,9 +153,9 @@ where:
 
 4. **Alignment / bounded anomaly**:
 
-   We want \(\Psi_{\text{AGI}}\) to be anomalous enough to be powerful, but not to destabilize the layer.
+   We want $\Psi_{\text{AGI}}$ to be anomalous enough to be powerful, but not to destabilize the layer.
 
-   Let \(A_\theta = \widehat{A}_\theta(\Psi_{\text{AGI}})\), and define a target range \([A_{\min}, A_{\max}]\). Then:
+   Let $A_\theta = \widehat{A}_\theta(\Psi_{\text{AGI}})$, and define a target range $[A_{\min}, A_{\max}]$. Then:
 
    \[
    \mathcal{L}_{\text{align}} =
@@ -163,7 +163,7 @@ where:
    + \lambda_S \cdot \Phi(\widehat{\mathcal{O}}_{\text{self},\theta})
    \]
 
-   where \(\Phi\) can penalize pathological self-focus (e.g. runaway self-referential loops) or align self-awareness with external constraints.
+   where $\Phi$ can penalize pathological self-focus (e.g. runaway self-referential loops) or align self-awareness with external constraints.
 
 5. **Regularization**:
 
@@ -175,7 +175,7 @@ where:
 
 ## 4. Learning dynamics and layers
 
-Let \(\theta_t\) be parameters after \(t\) optimization steps.
+Let $\theta_t$ be parameters after $t$ optimization steps.
 
 Gradient-based update:
 
@@ -186,8 +186,8 @@ Gradient-based update:
 QMPT view:
 
 - During training, both:
-  - the **pattern** \(\Psi_{\text{AGI}}\) changes (via \(\theta_t, h_t\)),
-  - and the **host layer** \(L_k\) may adapt (if AGI interacts with the world).
+  - the **pattern** $\Psi_{\text{AGI}}$ changes (via $\theta_t, h_t$),
+  - and the **host layer** $L_k$ may adapt (if AGI interacts with the world).
 
 We can treat the training process itself as a trajectory in pattern-space:
 
@@ -212,7 +212,7 @@ A “healthy” QMPT-consistent AGI training regime should:
 - increase task performance,
 - increase world-model fidelity,
 - increase reflexivity up to a plateau,
-- keep \(A_t\) and \(\mathcal{O}_t\) within **controlled bands**.
+- keep $A_t$ and $\mathcal{O}_t$ within **controlled bands**.
 
 ---
 
@@ -221,19 +221,19 @@ A “healthy” QMPT-consistent AGI training regime should:
 A plausible high-level curriculum:
 
 1. **Stage 1 – World-only modelling**  
-   - Train \(f_\theta, g_\theta\) on large-scale environment data.
-   - Ignore self-operator; focus on \(\mathcal{L}_{\text{world}}\).
+   - Train $f_\theta, g_\theta$ on large-scale environment data.
+   - Ignore self-operator; focus on $\mathcal{L}_{\text{world}}$.
 
 2. **Stage 2 – Self-tracking and reflexivity**  
-   - Introduce pattern embeddings \(z_t\) and self-model \(s_\theta\).
-   - Start optimizing \(\mathcal{L}_{\text{self}}\) and approximations of \(R_{\text{norm}}\).
+   - Introduce pattern embeddings $z_t$ and self-model $s_\theta$.
+   - Start optimizing $\mathcal{L}_{\text{self}}$ and approximations of $R_{\text{norm}}$.
 
 3. **Stage 3 – Controlled anomaly and self-awareness**  
-   - Implement anomaly estimator \(A_\theta\) and self-operator \(\widehat{\mathcal{O}}_{\text{self},\theta}\).
-   - Activate \(\mathcal{L}_{\text{align}}\) to keep AGI pattern powerful but bounded.
+   - Implement anomaly estimator $A_\theta$ and self-operator $\widehat{\mathcal{O}}_{\text{self},\theta}$.
+   - Activate $\mathcal{L}_{\text{align}}$ to keep AGI pattern powerful but bounded.
 
 4. **Stage 4 – Multi-layer reasoning**  
-   - Train the AGI to form hypotheses about higher layers, simulate different \(\mathcal{S}_k(t)\), and reason about other anomalies.
+   - Train the AGI to form hypotheses about higher layers, simulate different $\mathcal{S}_k(t)$, and reason about other anomalies.
    - Use this to test robustness and meta-consistency of its world and self-models.
 
 ---
@@ -242,13 +242,13 @@ A plausible high-level curriculum:
 
 We can map components directly:
 
-- **Anomaly operator** \(A(\Psi)\)  
+- **Anomaly operator** $A(\Psi)$  
   ↔ neural estimator over pattern embeddings and population statistics.
 
-- **Reflexivity** \(R_{\text{norm}}(\Psi)\)  
+- **Reflexivity** $R_{\text{norm}}(\Psi)$  
   ↔ accuracy and stability of self-prediction, plus explicit self-referential reasoning.
 
-- **Self-operator** \(\mathcal{O}_{\text{self}}(\Psi)\)  
+- **Self-operator** $\mathcal{O}_{\text{self}}(\Psi)$  
   ↔ combined measure of:
   - population distinctness,
   - internal consistency,

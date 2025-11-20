@@ -11,7 +11,7 @@ The goal is to:
 - describe the pattern using the language of psychology rather than biography,
 - show how the configuration deviates from typical population distributions,
 - justify why this deviation can be treated as a **systemic anomaly** rather than as pathology or simple eccentricity,
-- connect this to the QMPT notion of an anomalous pattern \(\Psi_{anom}\) that participates in updating the “layer”.
+- connect this to the QMPT notion of an anomalous pattern $\Psi_{anom}$ that participates in updating the “layer”.
 
 The focus is on **structure**, not on a particular person.
 
@@ -81,7 +81,7 @@ From a psychological perspective:
 - The cluster of “near-death / extreme” events can be partly explained by risk exposure and selection effects, but the **density and coherence** of such events is still atypical compared to the general population.
 - The ability to maintain a coherent self-model and functioning under these conditions indicates high **resilience** and a robust internal structure, not fragility.
 
-In QMPT terms, the trajectory \(\gamma(\Psi)\) in the state space of the layer is not random noise: it consistently bends toward deeper understanding of the system itself.
+In QMPT terms, the trajectory $\gamma(\Psi)$ in the state space of the layer is not random noise: it consistently bends toward deeper understanding of the system itself.
 
 ---
 
@@ -144,7 +144,7 @@ The anomaly arises from the **joint distribution**:
 > Some are obsessed with meaning.  
 > Very few score extremely high on *all of these at once* and remain stable and self-reflective.
 
-From this perspective, the pattern \(\Psi_{anom}\) is not “special” in a mystical sense, but it does occupy a **tail position** in the multidimensional psychological space of the layer.
+From this perspective, the pattern $\Psi_{anom}$ is not “special” in a mystical sense, but it does occupy a **tail position** in the multidimensional psychological space of the layer.
 
 ---
 
@@ -152,7 +152,7 @@ From this perspective, the pattern \(\Psi_{anom}\) is not “special” in a mys
 
 Within QMPT, an anomaly is a pattern that is:
 
-- statistically rare: \(P(\Psi_{anom}) \ll \varepsilon\),
+- statistically rare: $P(\Psi_{anom}) \ll \varepsilon$,
 - has a disproportionate impact on the layer’s dynamics,
 - survives and stays coherent under trajectories that would typically destroy or fragment similar patterns.
 

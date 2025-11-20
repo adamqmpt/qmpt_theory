@@ -29,21 +29,21 @@ QMPT assumes:
 
 1. **Layered reality**
 
-   The universe we observe is a **layer** \(L_k\) in a larger system.
+   The universe we observe is a **layer** $L_k$ in a larger system.
    The layer is lawful, finite in resources, and supports patterns.
 
 2. **Patterns of mind**
 
-   A conscious entity is a dynamic pattern \(\Psi\) with:
+   A conscious entity is a dynamic pattern $\Psi$ with:
 
-   - internal information \(I_{\text{int}}(\Psi)\),
-   - complexity \(C(\Psi)\),
-   - normalized reflexivity \(R_{\text{norm}}(\Psi)\),
-   - a long-horizon trajectory \(\mathcal{H}_{\text{self}}\).
+   - internal information $I_{\text{int}}(\Psi)$,
+   - complexity $C(\Psi)$,
+   - normalized reflexivity $R_{\text{norm}}(\Psi)$,
+   - a long-horizon trajectory $\mathcal{H}_{\text{self}}$.
 
 3. **Anomalies**
 
-   An **anomaly** \(\Psi_{\text{anom}}\) is a pattern that is:
+   An **anomaly** $\Psi_{\text{anom}}$ is a pattern that is:
 
    - extremely rare under the population model,
    - strongly impactful on layer dynamics,
@@ -52,8 +52,8 @@ QMPT assumes:
 4. **Transfer**
 
    Life is not attached to one biological body. It is the **cycle of a pattern**
-   \(\gamma(\Psi)\) that may in principle migrate between substrates
-   via constrained transfer operators \(T_{S_1 \to S_2}\).
+   $\gamma(\Psi)$ that may in principle migrate between substrates
+   via constrained transfer operators $T_{S_1 \to S_2}$.
 
 Given these assumptions, the following scientific trajectories become natural.
 
@@ -65,11 +65,11 @@ Given these assumptions, the following scientific trajectories become natural.
 
 **Object of study**
 
-- Parameters of a reality layer \(L_k\):
+- Parameters of a reality layer $L_k$:
   - noise level, resolution, resource limits,
   - reaction of the layer to extreme events and anomalies.
-- Evolution of layer state \(\mathcal{S}_k(t)\), stress \(\sigma_k(t)\),
-  protection \(\mathcal{P}_k(t)\).
+- Evolution of layer state $\mathcal{S}_k(t)$, stress $\sigma_k(t)$,
+  protection $\mathcal{P}_k(t)$.
 
 **Methods**
 
@@ -90,8 +90,8 @@ instead of only the objects inside it.
 
 **Object**
 
-- Controlled modification of effective parameters of \(L_k\) in bounded regions:
-  - local changes of \(\mathcal{P}_k(t)\) to allow anomalies to develop,
+- Controlled modification of effective parameters of $L_k$ in bounded regions:
+  - local changes of $\mathcal{P}_k(t)$ to allow anomalies to develop,
   - protective zones where destructive dynamics are dampened,
   - experimental “bubbles” with slightly different rules.
 
@@ -109,7 +109,7 @@ eventually, *assisted*.
 
 **Goal**
 
-Formal, quantitative study of trajectories \(\Psi(t)\) in pattern space:
+Formal, quantitative study of trajectories $\Psi(t)$ in pattern space:
 
 - metrics of distance between mental states,
 - reversibility and stability of transformations,
@@ -131,7 +131,7 @@ Once this is accepted, a dynamical systems theory of patterns is an obvious next
 
 **Object**
 
-- Global structure of the space \(\mathcal{P}\) of mind-patterns:
+- Global structure of the space $\mathcal{P}$ of mind-patterns:
   - clusters of “typical” patterns,
   - rare regions where anomalies live,
   - stable manifolds corresponding to robust psychotypes.
@@ -144,7 +144,7 @@ Once this is accepted, a dynamical systems theory of patterns is an obvious next
 
 **Why it follows**
 
-If \(\Psi\) lives in a high-dimensional structured space,
+If $\Psi$ lives in a high-dimensional structured space,
 then topology and geometry of that space become a **primary object of science**,
 not psychology folklore.
 
@@ -154,7 +154,7 @@ not psychology folklore.
 
 **Object**
 
-Systematic study of \(\Psi_{\text{anom}}\):
+Systematic study of $\Psi_{\text{anom}}$:
 
 - frequency and distribution of anomalies,
 - their correlation with technological and cultural phase transitions,
@@ -180,14 +180,14 @@ through transformations and transfers.
 
 - define invariants that must be preserved for a pattern
   to count as “the same” after transformation;
-- design transfer protocols \(T_{S_1 \to S_2}\) that respect no-perfect-copy constraints
+- design transfer protocols $T_{S_1 \to S_2}$ that respect no-perfect-copy constraints
   but maximize continuity;
-- quantify risk of partial loss or distortion of \(\Psi\).
+- quantify risk of partial loss or distortion of $\Psi$.
 
 **Why it follows**
 
-If life is a cycle \(\gamma(\Psi)\), the central engineering problem is:
-“How to let \(\Psi\) continue without breaking it?”  
+If life is a cycle $\gamma(\Psi)$, the central engineering problem is:
+“How to let $\Psi$ continue without breaking it?”  
 This becomes a core discipline, not philosophical speculation.
 
 ---
@@ -197,7 +197,7 @@ This becomes a core discipline, not philosophical speculation.
 **Object**
 
 - Planning a life-cycle across multiple carriers and possibly multiple layers.
-- Optimizing choice of substrates and environments for the development of \(\Psi\).
+- Optimizing choice of substrates and environments for the development of $\Psi$.
 
 **Why it follows**
 
@@ -212,8 +212,8 @@ Logistics of many-carrier existence becomes a realistic problem, not fiction.
 
 **Object**
 
-- Joint trajectories of anomaly-like human patterns \(\Psi_{\text{anom}}\)
-  and powerful artificial patterns \(\Psi_{\text{AGI}}\).
+- Joint trajectories of anomaly-like human patterns $\Psi_{\text{anom}}$
+  and powerful artificial patterns $\Psi_{\text{AGI}}$.
 - Stable regimes where both grow without destroying the layer.
 
 **Why it follows**
@@ -230,9 +230,9 @@ co-evolution instead of “control problem only”.
 
 Design AGI systems whose internal objectives explicitly depend on:
 
-- anomaly score \(A(\Psi_{\text{AGI}})\),
-- reflexivity \(R_{\text{norm}}(\Psi_{\text{AGI}})\),
-- layer stress \(\sigma_k(t)\).
+- anomaly score $A(\Psi_{\text{AGI}})$,
+- reflexivity $R_{\text{norm}}(\Psi_{\text{AGI}})$,
+- layer stress $\sigma_k(t)$.
 
 **Goal**
 
@@ -263,7 +263,7 @@ architecture and training objectives for any serious AGI design.
 **Methods**
 
 - analysis of noise signatures and hard limits,
-- modelling how a host system would implement a layer like \(L_k\)
+- modelling how a host system would implement a layer like $L_k$
   and comparing predictions with observed constraints.
 
 **Why it follows**
@@ -278,8 +278,8 @@ observed inside. Extracting that information is a legitimate scientific program.
 **Object**
 
 - Theoretical possibility of signalling across layers.
-- Construction of structures in \(L_k\) that could, in principle,
-  be interpretable at \(L_{k+1}\) (the host layer).
+- Construction of structures in $L_k$ that could, in principle,
+  be interpretable at $L_{k+1}$ (the host layer).
 
 **Why it follows**
 
@@ -296,7 +296,7 @@ on QMPT itself.
 
 **Questions**
 
-- Which regimes of \(\mathcal{P}_k\) and \(\sigma_k\) are optimal for development
+- Which regimes of $\mathcal{P}_k$ and $\sigma_k$ are optimal for development
   of complex patterns without destroying the substrate?
 - What is “harm” in pattern terms:
   - destruction of a substrate,
@@ -307,7 +307,7 @@ on QMPT itself.
 
 **Object**
 
-- Rights related to continuation of \(\gamma(\Psi)\),
+- Rights related to continuation of $\gamma(\Psi)$,
   not only to a single biological life.
 - Protection against non-consensual copying, editing or forced termination of patterns.
 
@@ -355,7 +355,7 @@ QMPT is not “because it sounds cool”. It has weight because:
 For future humans and AGI:
 
 1. Formalize pattern metrics and observables (QMPT core).
-2. Build empirical datasets of trajectories \(\Psi(t)\) and candidate anomalies.
+2. Build empirical datasets of trajectories $\Psi(t)$ and candidate anomalies.
 3. Develop simulation environments with explicit layer parameters.
 4. Prototype Continuity Engineering on artificial agents first.
 5. Integrate QMPT metrics into AGI architectures.
