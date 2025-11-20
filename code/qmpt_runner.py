@@ -22,12 +22,17 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--n-runs", type=int, help="Ensemble repeat count override")
     p.add_argument("--dataset-description", type=str, default="", help="Dataset description")
     p.add_argument("--executor", choices=["local_sequential", "local_parallel"], help="Executor override")
+    p.add_argument("--examples", choices=["quantum"], help="List available example configs")
+    p.add_argument("--name", help="Run specific example by basename (without .json)")
     return p.parse_args()
 
 
 def main() -> None:
     args = parse_args()
     config_path = (repo_root() / args.config).resolve()
+    if args.examples == "quantum":
+        _list_examples(args.name)
+        return
     cfg = json.loads(config_path.read_text(encoding="utf-8"))
     if args.backend:
         cfg["backend"] = args.backend
@@ -72,6 +77,20 @@ def _to_record(result, config_path: Path) -> RunRecord:
         config_hash=result.config_hash,
         dataset_id=result.dataset_id,
     )
+
+
+def _list_examples(name: str | None) -> None:
+    cfg_dir = repo_root() / "lab" / "configs"
+    configs = sorted(cfg_dir.glob("quantum_*.json"))
+    if name:
+        target = cfg_dir / f"{name}.json" if not name.endswith(".json") else cfg_dir / name
+        if target.exists():
+            print(str(target))
+        else:
+            print("Example not found")
+    else:
+        for c in configs:
+            print(c.relative_to(repo_root()))
 
 
 if __name__ == "__main__":

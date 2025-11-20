@@ -30,6 +30,7 @@ class QuantumResult:
     expectations: Dict[str, float]
     entropy: float
     metadata: Dict[str, Any]
+    statevector: Any = None
 
 
 class QuantumBackend:
@@ -83,7 +84,7 @@ class LocalSimulatorBackend(QuantumBackend):
 
         entropy = float(-np.sum(pvals * np.log2(pvals + 1e-12)))
         metadata = {"shots": shots, "backend": self.name, "seed": seed}
-        return QuantumResult(counts=counts, expectations=expectations, entropy=entropy, metadata=metadata)
+        return QuantumResult(counts=counts, expectations=expectations, entropy=entropy, metadata=metadata, statevector=np.array(sv.data))
 
 
 class DummyQuantumBackend(QuantumBackend):

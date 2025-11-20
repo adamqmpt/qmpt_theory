@@ -138,6 +138,66 @@ def compute_ensemble_summary(run_metrics_list: List[Dict[str, float]]) -> Dict[s
     return agg
 
 
+# Quantum metrics
+
+def quantum_entropy(statevector: np.ndarray) -> float:
+    if statevector is None:
+        return 0.0
+    rho = _statevector_to_density(statevector)
+    eigvals = np.real(np.linalg.eigvals(rho))
+    eigvals = eigvals[eigvals > 1e-12]
+    return float(-np.sum(eigvals * np.log2(eigvals)))
+
+
+def entanglement_entropy(statevector: np.ndarray, subsystem: list[int]) -> float:
+    if statevector is None:
+        return 0.0
+    rho = _statevector_to_density(statevector)
+    reduced = _partial_trace(rho, subsystem)
+    eigvals = np.real(np.linalg.eigvals(reduced))
+    eigvals = eigvals[eigvals > 1e-12]
+    return float(-np.sum(eigvals * np.log2(eigvals)))
+
+
+def mutual_information(statevector: np.ndarray, A: list[int], B: list[int]) -> float:
+    if statevector is None:
+        return 0.0
+    rho = _statevector_to_density(statevector)
+    sA = entanglement_entropy(statevector, A)
+    sB = entanglement_entropy(statevector, B)
+    sAB = _entropy_from_density(_partial_trace(rho, A + B))
+    return float(sA + sB - sAB)
+
+
+def _statevector_to_density(statevector: np.ndarray) -> np.ndarray:
+    sv = np.array(statevector, dtype=complex)
+    return np.outer(sv, np.conjugate(sv))
+
+
+def _partial_trace(rho: np.ndarray, keep: list[int]) -> np.ndarray:
+    # Basic partial trace for small systems; keep qubits listed in keep.
+    dim = rho.shape[0]
+    n = int(np.log2(dim))
+    keep_set = set(keep)
+    reshaped = rho.reshape([2] * (2 * n))
+    axes_to_trace = []
+    for qubit in range(n):
+        if qubit not in keep_set:
+            axes_to_trace.extend([qubit, qubit + n])
+    reduced = np.trace(reshaped, axis1=axes_to_trace[0], axis2=axes_to_trace[1]) if axes_to_trace else rho
+    # If more than one pair to trace, iteratively trace
+    if len(axes_to_trace) > 2:
+        for i in range(2, len(axes_to_trace), 2):
+            reduced = np.trace(reduced, axis1=axes_to_trace[i] - i, axis2=axes_to_trace[i + 1] - i)
+    return reduced
+
+
+def _entropy_from_density(rho: np.ndarray) -> float:
+    eigvals = np.real(np.linalg.eigvals(rho))
+    eigvals = eigvals[eigvals > 1e-12]
+    return float(-np.sum(eigvals * np.log2(eigvals)))
+
+
 def _arr(timeseries: Dict[str, Any], keys: List[str]):
     for k in keys:
         if k in timeseries:

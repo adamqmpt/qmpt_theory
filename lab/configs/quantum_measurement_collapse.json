@@ -1,0 +1,15 @@
+{
+  "backend": "quantum",
+  "experiment_type": "quantum_measurement_collapse",
+  "scenario": "measurement_induced_collapse",
+  "seed": 789,
+  "logs_dir": "lab/logs",
+  "results_dir": "lab/results",
+  "quantum": {
+    "theta": 1.2,
+    "shots": 512
+  },
+  "derived_metrics": {
+    "collapse_delta": "pre_entropy - post_entropy"
+  }
+}

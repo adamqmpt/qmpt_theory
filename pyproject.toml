@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=66", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qmpt-theory"
+version = "0.9.0"
+description = "QMPT – Quantum Meta-Pattern Theory tooling (IDE + core)"
+authors = [{name = "QMPT"}]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+ide = ["matplotlib"]
+quantum = ["qiskit"]
+
+[project.scripts]
+qmpt-ide = "code.qmpt_ide.app:main"
+qmpt-runner = "code.qmpt_runner:main"
+
+[tool.setuptools]
+package-dir = {"": "code"}
+
+[tool.setuptools.packages.find]
+where = ["code"]
+

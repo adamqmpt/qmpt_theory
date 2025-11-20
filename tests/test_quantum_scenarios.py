@@ -1,8 +1,9 @@
 import pytest
+from pathlib import Path
 
 from code.qmpt_ide.quantum.backends import QISKIT_AVAILABLE, LocalSimulatorBackend, DummyQuantumBackend
 from code.qmpt_ide.quantum.encodings import layer_to_circuit
-from code.qmpt_ide.quantum.scenarios import run_layer_stress_probe
+from code.qmpt_ide.quantum.scenarios import run_layer_stress_probe, run_quantum_scenario
 
 
 def test_layer_to_circuit_qubit_count():
@@ -31,3 +32,16 @@ def test_run_layer_stress_probe_backend_available():
         assert summary["backend"] == "quantum_local"
     else:
         assert summary.get("status") in {"unavailable", "not_implemented"}
+
+
+def test_new_quantum_scenarios():
+    backend = LocalSimulatorBackend() if QISKIT_AVAILABLE else DummyQuantumBackend()
+    cfgs = [
+        {"scenario": "entangled_anomaly_pair", "quantum": {"n_qubits": 2, "theta": 0.6, "shots": 64}},
+        {"scenario": "quantum_transfer_chain", "quantum": {"n_qubits": 3, "noise": 0.05, "shots": 64}, "horizon": 3},
+        {"scenario": "measurement_induced_collapse", "quantum": {"theta": 1.0, "shots": 64}},
+    ]
+    for cfg in cfgs:
+        summary, ts = run_quantum_scenario(cfg, backend, Path("/tmp/log"), Path("/tmp/results"))
+        assert "scenario" in summary
+        assert isinstance(ts, dict)

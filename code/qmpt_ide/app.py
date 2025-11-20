@@ -1,5 +1,5 @@
 """
-Entry point for QMPT Lab IDE (v0.4.0).
+Entry point for QMPT Lab IDE (v0.9.0 “Quantum Patterns & Examples”).
 Wires UI components and shared state.
 Run with: python3 -m code.qmpt_ide.app
 """

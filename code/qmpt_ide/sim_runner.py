@@ -18,6 +18,7 @@ from typing import Dict, Any, Protocol, Optional, List, Tuple
 import numpy as np
 
 from code.qmpt_core import scenarios as classical_scenarios, io as core_io, metrics as core_metrics
+from code.qmpt_core.expressions import evaluate_derived
 from .quantum import scenarios as quantum_scenarios
 from .quantum.backends import LocalSimulatorBackend, DummyQuantumBackend, QuantumBackend
 from .quantum.encodings import layer_to_circuit
@@ -58,6 +59,11 @@ class ClassicalBackend:
         summary["backend"] = "classical"
         core_io.save_run_results(run_id, layer, summary, result_dir, cfg)
         metrics = json.loads((result_dir / "metrics.json").read_text(encoding="utf-8"))
+        derived_cfg = cfg.get("derived_metrics") or {}
+        derived = evaluate_derived(metrics, derived_cfg) if derived_cfg else {}
+        if derived:
+            metrics["derived"] = derived
+            (result_dir / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
         return RunResult(
             run_id=run_id,
             status="ok",
@@ -96,6 +102,10 @@ class QuantumBackendWrapper:
         np.savez(result_dir / "timeseries.npz", **timeseries)
         derived = core_metrics.compute_run_metrics(timeseries, cfg)
         merged = {**summary, **derived}
+        exprs = cfg.get("derived_metrics") or {}
+        derived_expr = evaluate_derived(merged, exprs) if exprs else {}
+        if derived_expr:
+            merged["derived"] = derived_expr
         (result_dir / "metrics.json").write_text(json.dumps(merged, indent=2), encoding="utf-8")
 
 
@@ -184,6 +194,10 @@ class HybridBackend:
         np.savez(result_dir / "timeseries.npz", **timeseries)
         derived = core_metrics.compute_run_metrics(timeseries, cfg)
         summary.update(derived)
+        exprs = cfg.get("derived_metrics") or {}
+        d = evaluate_derived(summary, exprs) if exprs else {}
+        if d:
+            summary["derived"] = d
         (result_dir / "metrics.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
         status = "ok" if getattr(self.q_backend, "is_available", True) else "degraded"
         return RunResult(

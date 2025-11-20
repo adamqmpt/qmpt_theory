@@ -50,13 +50,17 @@ class PlotPanel(ttk.Frame):
         data = np.load(npz_path)
         series_keys = [k for k in data.files if k != "t"]
         if not series_keys:
-            self._write("Timeseries file has no plottable data.")
+            backend = getattr(self.state.current_run, "backend", "")
+            if backend == "quantum":
+                self._write("No quantum data for this run.")
+            else:
+                self._write("Timeseries file has no plottable data.")
             return
 
         t = data["t"] if "t" in data else None
         selected = []
         # Prefer classical keys if present, otherwise take first metrics.
-        for pref in ["stress", "protection", "novelty", "expectation_mean", "entropy", "anomaly_proxy"]:
+        for pref in ["stress", "protection", "novelty", "expectation_mean", "entropy", "anomaly_proxy", "entanglement", "fidelity"]:
             if pref in series_keys and pref not in selected:
                 selected.append(pref)
         for k in series_keys:

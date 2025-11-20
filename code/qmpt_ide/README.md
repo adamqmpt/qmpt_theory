@@ -1,11 +1,11 @@
-# QMPT Lab IDE (v0.7.0 “Ensembles & Anomaly Tracking”)
+# QMPT Lab IDE (v0.9.0 “Quantum Patterns & Examples”)
 
 Dark-theme Tkinter IDE for QMPT experiments. Modular layout:
 
 - `app.py` – entry point, wires everything.
 - `core_config.py` – IDE config loader/saver.
 - `core_runs.py` – run registry (JSONL), run metadata.
-- `sim_runner.py` – backend abstraction (classical, quantum local simulator, hybrid cycle) + ensembles.
+- `sim_runner.py` – backend abstraction (classical, quantum local simulator, hybrid cycle) + ensembles, derived metrics.
 - `state.py` – shared app state.
 - `ui_main.py` – assembles panels.
 - `ui_docs.py` – Markdown doc browser/viewer.
@@ -136,12 +136,18 @@ python -m code.qmpt_runner --config lab/configs/classical_ensemble.json --ensemb
 
 Outputs run/dataset summary and reuses the same logs/results layout as the IDE.
 
+### Quantum patterns & examples
+
+- New quantum scenarios: entangled anomaly pair, transfer chain, measurement-induced collapse (`lab/configs/quantum_*.json`).
+- Quantum metrics: entanglement entropy, continuity/fidelity, collapse delta, plus derived expressions via `derived_metrics`.
+- Expression layer: add arithmetic formulas over metrics; results stored under `derived` in metrics JSON.
+- Quantum examples doc: `lab/quantum/README_QUANTUM_EXAMPLES_en.md`.
+
 ## Roadmap (summary)
 
-- v0.7.0 (current): Ensembles & Anomaly Tracking — run ensembles, dataset manifests, run/ensemble metrics, hybrid pipeline, CLI runner.
-- v0.8.x: richer quantum scenarios/noise models, improved visualization.
-- v0.9.x: integration with external data (text/trace ingestion) for observables.
-- v1.0: stable API, full workflows, hardened tests/docs.
+- v0.9.0 (current): Quantum Patterns & Examples — quantum scenarios/metrics/derived expressions, quantum example browser, improved plotting.
+- v0.10.x: richer quantum noise/models, calibration refinements.
+- v1.0: stable API, external data integration, reproducibility/export focus.
 
 ## Notes / RU hooks
 

@@ -10,10 +10,12 @@ from datetime import datetime
 from pathlib import Path
 from tkinter import ttk, messagebox
 from typing import Optional
+import json
 
 from .sim_runner import BackendType, RunResult
 from .state import AppState, repo_root
 from .core_runs import RunRecord
+from .quantum.backends import QISKIT_AVAILABLE
 
 
 class RunsPanel(ttk.Frame):
@@ -54,6 +56,10 @@ class RunsPanel(ttk.Frame):
         self.dataset_desc.grid(row=0, column=4, padx=2, sticky="w")
         ttk.Button(ensemble_frame, text="Templates", command=self._write_templates).grid(row=0, column=5, padx=4)
 
+        if not QISKIT_AVAILABLE:
+            warn = ttk.Label(self, text="Quantum backend not installed; quantum runs will degrade.", foreground="orange")
+            warn.pack(fill=tk.X, pady=(4, 0))
+
         ttk.Label(self, text="Run history").pack(anchor=tk.W, pady=(8, 2))
         self.history = tk.Listbox(
             self,
@@ -76,6 +82,20 @@ class RunsPanel(ttk.Frame):
             wrap=tk.WORD,
         )
         self.log_view.pack(fill=tk.BOTH, expand=True)
+
+        # Quantum examples
+        qframe = ttk.Frame(self)
+        qframe.pack(fill=tk.X, pady=(6, 2))
+        ttk.Label(qframe, text="Quantum examples").grid(row=0, column=0, sticky="w")
+        self.q_examples = tk.Listbox(
+            qframe,
+            height=3,
+            bg=self.state.config.theme["panel"],
+            fg=self.state.config.theme["fg"],
+        )
+        self.q_examples.grid(row=1, column=0, columnspan=2, sticky="we")
+        self.q_examples.bind("<<ListboxSelect>>", self._select_example)
+        self._load_quantum_examples()
 
         self._refresh_history()
 
@@ -214,3 +234,18 @@ class RunsPanel(ttk.Frame):
                 path.write_text(json.dumps(cfg, indent=2), encoding="utf-8")
             except Exception:
                 continue
+
+    def _load_quantum_examples(self) -> None:
+        self.q_examples.delete(0, tk.END)
+        cfg_dir = repo_root() / "lab" / "configs"
+        for cfg in sorted(cfg_dir.glob("quantum_*.json")):
+            self.q_examples.insert(tk.END, cfg.name)
+
+    def _select_example(self, _event=None) -> None:
+        idxs = self.q_examples.curselection()
+        if not idxs:
+            return
+        cfg_dir = repo_root() / "lab" / "configs"
+        name = self.q_examples.get(idxs[0])
+        self.config_entry.delete(0, tk.END)
+        self.config_entry.insert(0, str((cfg_dir / name).relative_to(repo_root())))

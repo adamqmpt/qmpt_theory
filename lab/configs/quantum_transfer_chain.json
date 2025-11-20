@@ -1,0 +1,16 @@
+{
+  "backend": "quantum",
+  "experiment_type": "quantum_transfer_chain",
+  "scenario": "quantum_transfer_chain",
+  "seed": 456,
+  "logs_dir": "lab/logs",
+  "results_dir": "lab/results",
+  "quantum": {
+    "n_qubits": 3,
+    "noise": 0.05,
+    "shots": 512
+  },
+  "derived_metrics": {
+    "continuity_loss": "1 - fidelity_final"
+  }
+}

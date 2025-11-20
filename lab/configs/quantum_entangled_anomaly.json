@@ -1,0 +1,16 @@
+{
+  "backend": "quantum",
+  "experiment_type": "quantum_entangled",
+  "scenario": "entangled_anomaly_pair",
+  "seed": 123,
+  "logs_dir": "lab/logs",
+  "results_dir": "lab/results",
+  "quantum": {
+    "n_qubits": 2,
+    "theta": 0.9,
+    "shots": 512
+  },
+  "derived_metrics": {
+    "R_quantum_norm": "R_quantum / (1.0 + 0.1)"
+  }
+}

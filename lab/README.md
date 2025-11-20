@@ -91,6 +91,7 @@ Design notes and research sketches for **quantum-related work**:
 - encodings of QMPT layer state into quantum circuits,
 - ideas for quantum scenarios and observables,
 - constraints for using quantum backends inside QMPT simulations.
+- runnable examples documented in `lab/quantum/README_QUANTUM_EXAMPLES_en.md` / `_ru.md` with configs `lab/configs/quantum_*.json`.
 
 This is the conceptual twin of the implementation under `code/qmpt_ide/quantum/`:  
 `lab/quantum/` explains *why* the quantum stack is shaped this way.

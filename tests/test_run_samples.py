@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import json
+
 from code.qmpt_ide.sim_runner import SimulationRunner, BackendType
 from code.qmpt_ide.core_runs import RunRegistry
 from code.qmpt_ide.state import repo_root
@@ -35,6 +37,7 @@ def test_quantum_stub_config(tmp_path: Path) -> None:
         assert "layer_stress_probe" in content
     else:
         assert "unavailable" in content or "quantum_dummy" in content
+    assert "\"metrics_schema_version\"" in content
 
 
 def test_hybrid_config(tmp_path: Path) -> None:
@@ -90,3 +93,19 @@ def test_new_scenarios_run(tmp_path: Path) -> None:
     }
     res3 = runner.run_config(cfg_transfer, BackendType.CLASSICAL)
     assert (res3.results_path / "metrics.json").exists()
+
+
+def test_quantum_examples(tmp_path: Path) -> None:
+    root = repo_root()
+    registry = RunRegistry(tmp_path / "runs.jsonl")
+    runner = SimulationRunner(registry)
+    examples = [
+        root / "lab" / "configs" / "quantum_entangled_anomaly.json",
+        root / "lab" / "configs" / "quantum_transfer_chain.json",
+    ]
+    for cfg in examples:
+        res = runner.run(cfg, BackendType.QUANTUM)
+        metrics = json.loads((res.results_path / "metrics.json").read_text(encoding="utf-8"))
+        assert "metrics_schema_version" in metrics
+        if "derived" in metrics:
+            assert isinstance(metrics["derived"], dict)
