@@ -11,8 +11,9 @@ from pathlib import Path
 from tkinter import ttk, messagebox
 from typing import Optional
 
-from .sim_runner import BackendType
+from .sim_runner import BackendType, RunResult
 from .state import AppState, repo_root
+from .core_runs import RunRecord
 
 
 class RunsPanel(ttk.Frame):
@@ -66,10 +67,12 @@ class RunsPanel(ttk.Frame):
 
     def _refresh_history(self) -> None:
         self.history.delete(0, tk.END)
+        badge = {"classical": "C", "quantum": "Q", "hybrid": "H"}
         for rec in self.state.registry.latest():
             ts = datetime.fromtimestamp(rec.timestamp).isoformat(timespec="seconds")
+            tag = badge.get(rec.backend, "?")
             self.history.insert(
-                tk.END, f"{rec.run_id} [{rec.backend} {rec.status}] {ts}"
+                tk.END, f"{rec.run_id} [{tag}:{rec.backend} {rec.status}] {ts}"
             )
         self.state.current_run = None
 
@@ -89,24 +92,26 @@ class RunsPanel(ttk.Frame):
 
     def _run_thread(self, config_path: Path, backend: BackendType) -> None:
         result = self.state.sim_runner.run(config_path, backend)
-        self.state.registry.add(
-            self.state.registry.__class__.__annotations__["RunRecord"](  # type: ignore
-                run_id=result.run_id,
-                timestamp=datetime.utcnow().timestamp(),
-                config_path=str(config_path),
-                backend=result.backend.value,
-                status=result.status,
-                log_path=str(result.log_path),
-                results_path=str(result.results_path),
-                metrics=result.metrics,
-                git_commit=None,
-                config_hash=None,
-            )
-        )
+        self._record_run(result, config_path)
         self._refresh_history()
         self._show_log(result.log_path)
         if self.on_plot:
             self.on_plot(result.results_path)
+
+    def _record_run(self, result: RunResult, config_path: Path) -> None:
+        record = RunRecord(
+            run_id=result.run_id,
+            timestamp=datetime.utcnow().timestamp(),
+            config_path=str(config_path),
+            backend=result.backend.value,
+            status=result.status,
+            log_path=str(result.log_path),
+            results_path=str(result.results_path),
+            metrics=result.metrics,
+            git_commit=result.git_commit,
+            config_hash=result.config_hash,
+        )
+        self.state.registry.add(record)
 
     def _select_history(self, _event=None) -> None:
         idxs = self.history.curselection()

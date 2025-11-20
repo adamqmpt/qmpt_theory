@@ -8,7 +8,7 @@ import json
 import time
 from dataclasses import dataclass, asdict
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional
+from typing import Dict, Iterable, List, Optional, Any
 
 
 @dataclass
@@ -20,7 +20,7 @@ class RunRecord:
     status: str
     log_path: str
     results_path: str
-    metrics: Dict[str, float]
+    metrics: Dict[str, Any]
     git_commit: Optional[str] = None
     config_hash: Optional[str] = None
 

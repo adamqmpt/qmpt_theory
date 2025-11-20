@@ -344,19 +344,20 @@ Current files:
 
 ---
 
-### 5.6. QMPT Lab IDE (v0.5.0)
+### 5.6. QMPT Lab IDE (v0.6.0 “Quantum Bridge”)
 
 - `code/qmpt_ide/` — dark-theme Tkinter IDE for QMPT experiments:
   - document browser for `.md` theory files,
   - note editor saving to `lab/notes/`,
   - run control panel with backend selection, run history, inline log viewer,
   - layer/pattern inspector for completed runs,
-  - plotting of layer metrics (stress \(\sigma_k(t)\), protection \(\mathcal{P}_k(t)\), novelty) if matplotlib is available (graceful fallback otherwise),
-  - simulation backends: **classical** (QMPT scenarios via `qmpt_core`) and **quantum stub** (validated config, placeholder results).
-- `config/ide_default.json` — default UI/workspace settings (paths, backend defaults, theme, matplotlib toggle).
+  - plotting of layer metrics (automatically handles classical arrays or quantum observables) if matplotlib is available (graceful fallback otherwise),
+  - simulation backends: **classical** (QMPT scenarios via `qmpt_core`), **quantum** (local qiskit-based simulator), **hybrid stub** (placeholder for future coupling).
 - `code/qmpt_core/` — minimal QMPT core models/metrics/scenarios shared by the IDE backends.
+- `config/ide_default.json` — default UI/workspace settings (paths, backend defaults, theme, matplotlib toggle).
 - Launch: `python3 -m code.qmpt_ide.app`
-- Logs: `lab/logs/`; results: `lab/results/`; run registry: `lab/runs.jsonl`; sample configs under `lab/configs/`.
+- Logs: `lab/logs/`; results: `lab/results/`; run registry: `lab/runs.jsonl`; sample configs under `lab/configs/` (classical and quantum examples).
+- Quantum backend uses qiskit local simulation when available; if missing, it degrades to a clear dummy status without crashing the IDE.
 
 ---
 

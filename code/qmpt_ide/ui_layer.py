@@ -48,17 +48,29 @@ class LayerInspector(ttk.Frame):
         if metrics_path.exists():
             try:
                 metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
+                backend = metrics.get("backend", "unknown")
+                lines.append(f"backend: {backend}")
                 for k, v in metrics.items():
+                    if k == "backend":
+                        continue
                     lines.append(f"{k}: {v}")
             except Exception:
                 lines.append("Could not parse metrics.json")
         if timeseries_path.exists():
             try:
                 data = np.load(timeseries_path)
-                stress_max = float(np.max(data["stress"]))
-                protection_min = float(np.min(data["protection"]))
-                lines.append(f"stress_max: {stress_max:.3f}")
-                lines.append(f"protection_min: {protection_min:.3f}")
+                if "stress" in data:
+                    stress_max = float(np.max(data["stress"]))
+                    lines.append(f"stress_max: {stress_max:.3f}")
+                if "protection" in data:
+                    protection_min = float(np.min(data["protection"]))
+                    lines.append(f"protection_min: {protection_min:.3f}")
+                if "expectation_mean" in data:
+                    exp_mean = float(np.mean(data["expectation_mean"]))
+                    lines.append(f"mean_z: {exp_mean:.3f}")
+                if "entropy" in data:
+                    ent_mean = float(np.mean(data["entropy"]))
+                    lines.append(f"entropy_mean: {ent_mean:.3f}")
             except Exception:
                 lines.append("Could not parse timeseries.npz")
         self._set_text(self.summary, "\n".join(lines))

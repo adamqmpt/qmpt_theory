@@ -1,0 +1,17 @@
+{
+  "backend": "quantum",
+  "experiment_type": "layer_dynamics_quantum",
+  "scenario": "layer_stress_probe",
+  "seed": 321,
+  "horizon": 16,
+  "dt": 1.0,
+  "logs_dir": "lab/logs",
+  "results_dir": "lab/results",
+  "quantum": {
+    "n_qubits": 3,
+    "circuit_depth": 2,
+    "shots": 512,
+    "backend_name": "local_simulator",
+    "noise_model": "ideal"
+  }
+}

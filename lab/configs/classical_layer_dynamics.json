@@ -1,0 +1,11 @@
+{
+  "backend": "classical",
+  "experiment_type": "layer_dynamics",
+  "scenario": "baseline_layer",
+  "seed": 123,
+  "horizon": 50,
+  "dt": 1.0,
+  "layer_id": "Lk",
+  "logs_dir": "lab/logs",
+  "results_dir": "lab/results"
+}

@@ -48,15 +48,35 @@ class PlotPanel(ttk.Frame):
             self._write("No timeseries available to plot.")
             return
         data = np.load(npz_path)
-        t = data["t"]
-        fig, ax = plt.subplots(3, 1, figsize=(5, 5))
-        ax[0].plot(t, data["stress"], label="stress")
-        ax[0].set_ylabel("σ_k")
-        ax[1].plot(t, data["protection"], label="protection", color="orange")
-        ax[1].set_ylabel("P_k")
-        ax[2].plot(t, data["novelty"], label="novelty", color="green")
-        ax[2].set_ylabel("novelty")
-        ax[2].set_xlabel("t")
+        series_keys = [k for k in data.files if k != "t"]
+        if not series_keys:
+            self._write("Timeseries file has no plottable data.")
+            return
+
+        t = data["t"] if "t" in data else None
+        selected = []
+        # Prefer classical keys if present, otherwise take first metrics.
+        for pref in ["stress", "protection", "novelty", "expectation_mean", "entropy", "anomaly_proxy"]:
+            if pref in series_keys and pref not in selected:
+                selected.append(pref)
+        for k in series_keys:
+            if k not in selected and len(selected) < 3:
+                selected.append(k)
+        if len(selected) > 3:
+            selected = selected[:3]
+
+        fig, ax = plt.subplots(len(selected), 1, figsize=(5, 4 + len(selected)))
+        if len(selected) == 1:
+            ax = [ax]
+        for idx, key in enumerate(selected):
+            y = data[key]
+            if t is not None and len(t) == len(y):
+                ax[idx].plot(t, y, label=key)
+                ax[idx].set_xlabel("t")
+            else:
+                ax[idx].plot(y, label=key)
+            ax[idx].set_ylabel(key)
+            ax[idx].legend()
         fig.tight_layout()
         img_path = result_dir / "plot.png"
         fig.savefig(img_path)
