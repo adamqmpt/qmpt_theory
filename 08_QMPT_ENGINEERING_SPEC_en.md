@@ -1,4 +1,4 @@
-# 07_QMPT_ENGINEERING_SPEC_en.md  
+# 08_QMPT_ENGINEERING_SPEC_en.md  
 **QMPT – Engineering specification (v0.1)**
 
 Goal: define a minimal but coherent engineering architecture
@@ -11,7 +11,7 @@ for experimenting with Quantum Meta-Pattern Theory (QMPT):
 - log and simulate layer-level dynamics \(\mathcal{S}_k(t)\).
 
 This spec is **implementation-agnostic**, but oriented toward a Python stack
-(see `08_QMPT_PYTHON_TOOLING_en.md`).
+(see `09_QMPT_PYTHON_TOOLING_en.md`).
 
 ---
 
@@ -23,10 +23,10 @@ The system is split into four main layers:
    Storage and retrieval of raw observations \(\mathcal{D}(\Psi)\).
 
 2. **Representation layer**  
-   Feature extraction:
-   \[
+   Feature extraction:  
+   $$
    \phi: \mathcal{D}(\Psi) \to x_\Psi \in \mathbb{R}^d.
-   \]
+   $$
 
 3. **Metric layer**  
    Estimators for:
@@ -132,9 +132,9 @@ Steps:
 1. Group observations by `pattern_id`.
 2. For each pattern, compute:
 
-   \[
+   $$
    x_\Psi = \phi(\mathcal{D}(\Psi)).
-   \]
+   $$
 
 3. Save `features` in the corresponding `Pattern`.
 
@@ -161,9 +161,9 @@ Steps:
 1. Fit density model \(\widehat{P}_\mathrm{data}(x)\) on \(\{x_\Psi\}\).
 2. Compute:
 
-   \[
+   $$
    \widehat{R}(\Psi) = -\log \widehat{P}_\mathrm{data}(x_\Psi).
-   \]
+   $$
 
 3. Compute structural distance \(\widehat{D}(\Psi)\):
 
@@ -176,12 +176,12 @@ Steps:
 
 5. Combine:
 
-   \[
+   $$
    \widehat{A}(\Psi)
    = w_1 \widehat{R}(\Psi)
    + w_2 \widehat{D}(\Psi)
    + w_3 \widehat{I}(\Psi).
-   \]
+   $$
 
 6. Persist `anomaly_score` in each `Pattern`.
 
@@ -200,13 +200,13 @@ Steps:
 2. Compute \(\widehat{R}_\mathrm{dyn}(\Psi)\) via trajectory analysis.
 3. Normalize:
 
-   \[
+   $$
    \widehat{R}_\mathrm{norm}(\Psi)
    = \mathrm{Norm}(
      \beta_1 \widehat{R}_\mathrm{text}
    + \beta_2 \widehat{R}_\mathrm{dyn}
    + \dots ).
-   \]
+   $$
 
 4. Persist `reflexivity` in `Pattern`.
 
@@ -227,13 +227,13 @@ Steps:
 3. Estimate \(\widehat{Q}_\mathrm{meta}(\Psi)\).
 4. Compute:
 
-   \[
+   $$
    \widehat{\mathcal{O}}_\mathrm{self}(\Psi)
    = \alpha_\mathrm{pop} \widehat{Q}_\mathrm{pop}(\Psi)
    + \alpha_\mathrm{self} \widehat{Q}_\mathrm{self}(\Psi)
    + \alpha_\mathrm{meta} \widehat{Q}_\mathrm{meta}(\Psi)
    + \alpha_R \widehat{R}_\mathrm{norm}(\Psi).
-   \]
+   $$
 
 5. Persist `self_operator` in `Pattern`.
 
@@ -251,10 +251,10 @@ Steps (conceptual):
 
 1. Define state update rule:
 
-   \[
+   $$
    \mathcal{S}_k(t + \Delta t)
    = F\big( \mathcal{S}_k(t), \{ \Psi \}, \text{interventions} \big),
-   \]
+   $$
 
    where \(F\) may depend on \(A(\Psi)\), \(\mathcal{O}_\mathrm{self}(\Psi)\), etc.
 
@@ -286,7 +286,7 @@ Config format (suggestion):
 
 ## 5. Interfaces for Python tooling
 
-See `08_QMPT_PYTHON_TOOLING_en.md` for more detail.  
+See `09_QMPT_PYTHON_TOOLING_en.md` for more detail.  
 Minimal module split:
 
 - `qmpt.data` – loading, storing, indexing `Observation` and `Pattern`.

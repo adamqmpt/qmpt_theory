@@ -33,7 +33,7 @@ Before writing any code or proposing changes, you MUST:
 
 1. Read `README.md`  
 2. Read `02_QMPT_CORE_en.md`  
-3. Read `02_ANOMALY_MODEL_en.md`  
+3. Read `03_ANOMALY_MODEL_en.md`  
 4. Re-read this file (`00_AI_AGENT_INSTRUCTIONS.md`)
 
 Treat these as your **primary specification**.
@@ -100,7 +100,7 @@ No network calls, no external APIs, no self-modifying code.
 - Use type hints (`typing`).  
 - Every public function / class MUST have a docstring with:
   - a clear description of inputs/outputs,
-  - a reference to the relevant section / equation in the theory (`02_QMPT_CORE_en.md`, `02_ANOMALY_MODEL_en.md`, etc.),
+  - a reference to the relevant section / equation in the theory (`02_QMPT_CORE_en.md`, `03_ANOMALY_MODEL_en.md`, etc.),
   - if applicable, the corresponding mathematical formula (in LaTeX).
 
 ### 4.4. Determinism and safety
@@ -246,7 +246,7 @@ You MUST NOT:
   - `README.md`,
   - `00_AI_AGENT_INSTRUCTIONS.md`,
   - `02_QMPT_CORE_en.md`,
-  - `02_ANOMALY_MODEL_en.md`,
+  - `03_ANOMALY_MODEL_en.md`,
   - any `_ru.md` translations.
 
 If you see inconsistencies or better structures:

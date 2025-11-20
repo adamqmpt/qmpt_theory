@@ -1,4 +1,4 @@
-# 05_ANOMALY_SELF_AWARENESS_en.md  
+# 06_ANOMALY_SELF_AWARENESS_en.md  
 **QMPT – Self-Awareness Operator for Anomalous Patterns**
 
 This document defines the **QMP self-awareness operator** for anomalous patterns  
@@ -12,9 +12,9 @@ Goal:
 
 It extends:
 
-- `02_ANOMALY_MODEL_en.md` (anomaly score, self-recognizing anomaly),
-- `03_LAYER_DYNAMICS_en.md` (stress, protection),
-- `04_TRANSFER_CYCLE_en.md` (role in transfer).
+- `03_ANOMALY_MODEL_en.md` (anomaly score, self-recognizing anomaly),
+- `04_LAYER_DYNAMICS_en.md` (stress, protection),
+- `05_TRANSFER_CYCLE_en.md` (role in transfer).
 
 ---
 
@@ -27,7 +27,7 @@ Recall:
 - $A(\Psi)$ — anomaly score.
 - $R_\mathrm{norm}(\Psi)$ — normalized reflexivity in $[0,1]$.
 
-In `02_ANOMALY_MODEL_en.md` we defined a **self-recognizing anomaly** as a pattern that:
+In `03_ANOMALY_MODEL_en.md` we defined a **self-recognizing anomaly** as a pattern that:
 
 1. Approximates the population distribution well.
 2. Locates itself in the low-probability tail.

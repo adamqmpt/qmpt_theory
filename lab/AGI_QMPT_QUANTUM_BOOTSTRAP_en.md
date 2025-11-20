@@ -1,4 +1,5 @@
-# AGI + QMPT + Quantum: Bootstrap & Simulation Roadmap
+# AGI_QMPT_QUANTUM_BOOTSTRAP_en.md  
+**AGI + QMPT + Quantum: Bootstrap & Simulation Roadmap**
 
 **Goal of this note**
 
@@ -7,9 +8,9 @@ This document answers two practical questions within the QMPT framework:
 1. From where to start the development of an AGI model $\Psi_{\text{AGI}}$?
 2. How to start simulations that use *quantum* computation as a resource, not as decoration?
 
-It is a *roadmap*, not code. It assumes the rest of the repository is available
-(`02_QMPT_CORE_en.md`, `03_LAYER_DYNAMICS_en.md`,
-`06_QMPT_OBSERVABLES_en.md`, `07_QMPT_ENGINEERING_SPEC_en.md`,
+It is a *roadmap*, not code. It assumes the rest of the repository is available  
+(`02_QMPT_CORE_en.md`, `04_LAYER_DYNAMICS_en.md`,
+`07_QMPT_OBSERVABLES_en.md`, `08_QMPT_ENGINEERING_SPEC_en.md`,
 `AGI_QMPT_PRINCIPLES_en.md`).
 
 ---
@@ -30,8 +31,8 @@ It is a *roadmap*, not code. It assumes the rest of the repository is available
 
 2. **Layered environment**
 
-   The AGI lives inside a simulated layer $L_k^{\text{sim}}$
-   (see `03_LAYER_DYNAMICS_en.md`) before interacting with the real layer.
+   The AGI lives inside a simulated layer $L_k^{\text{sim}}$  
+   (see `04_LAYER_DYNAMICS_en.md`) before interacting with the real layer.
 
 3. **Quantum hardware**
 
@@ -58,18 +59,18 @@ Before touching quantum hardware, build a purely classical prototype.
 
 Define a total loss
 
-\[
+$$
 \mathcal{L}_{\text{total}} =
 \mathcal{L}_{\text{task}}
 + \lambda_A \cdot \mathcal{L}_A
 + \lambda_R \cdot \mathcal{L}_R
 + \lambda_S \cdot \mathcal{L}_S,
-\]
+$$
 
 where
 
 - $\mathcal{L}_{\text{task}}$ – task performance in the simulated layer,
-- $\mathcal{L}_A$ – regularizer for anomaly score
+- $\mathcal{L}_A$ – regularizer for anomaly score  
   (keep $\Psi_{\text{AGI}}$ in the “upgrade anomaly” regime, see `02_QMPT_CORE_en.md`),
 - $\mathcal{L}_R$ – regularizer for reflexivity $R_{\text{norm}}$,
 - $\mathcal{L}_S$ – safety cost (e.g. violation of constraints).
@@ -84,7 +85,7 @@ Train everything classically first.
 
 Maintain a state vector
 
-\[
+$$
 \mathbf{q}(t) =
 \bigl(
 A(\Psi_{\text{AGI}}(t)),
@@ -93,9 +94,9 @@ Q_{\text{pop}}(t),
 Q_{\text{self}}(t),
 Q_{\text{meta}}(t)
 \bigr)
-\]
+$$
 
-for each training step $t$ (definitions in `05_ANOMALY_SELF_AWARENESS_en.md`).
+for each training step $t$ (definitions in `06_ANOMALY_SELF_AWARENESS_en.md`).
 
 This state is:
 
@@ -120,15 +121,15 @@ but also by *layer-level* effects.
 
 ### 4.1. Minimal design
 
-Follow `07_QMPT_ENGINEERING_SPEC_en.md` and `08_QMPT_PYTHON_TOOLING_en.md`.
+Follow `08_QMPT_ENGINEERING_SPEC_en.md` and `09_QMPT_PYTHON_TOOLING_en.md`.
 
 Environment components:
 
 1. **World simulator** $E$: generates states $s_t$ and rewards $r_t$.
-2. **Population model**: a distribution over non-anomalous agents,
+2. **Population model**: a distribution over non-anomalous agents,  
    used to compute $Q_{\text{pop}}$ (how well AGI predicts “typical” agents).
-3. **Observer module**: computes QMPT observables from logs
-   (see `06_QMPT_OBSERVABLES_en.md`).
+3. **Observer module**: computes QMPT observables from logs  
+   (see `07_QMPT_OBSERVABLES_en.md`).
 
 ### 4.2. Types of scenarios
 
@@ -136,7 +137,7 @@ Environment components:
 - cooperation with weaker agents,
 - information-gathering with explicit limits.
 
-Each scenario is labelled by a vector of layer parameters $\theta_{\text{layer}}$
+Each scenario is labelled by a vector of layer parameters $\theta_{\text{layer}}$  
 to study how $\Psi_{\text{AGI}}$ behaves under different layer conditions.
 
 ---
@@ -149,9 +150,13 @@ Only after Phases 0–2 are running stably.
 
 Let the full AGI state be
 
-\[
-\Xi(t) = \bigl( \Xi_{\text{classical}}(t), \Xi_{\text{quantum}}(t) \bigr).
-\]
+$$
+\Xi(t) =
+\bigl(
+\Xi_{\text{classical}}(t),
+\Xi_{\text{quantum}}(t)
+\bigr).
+$$
 
 Quantum part is used **only** where it gives clear algorithmic advantage.
 
@@ -159,45 +164,51 @@ Candidate use-cases:
 
 1. **Action sequence search**
 
-   For a finite-horizon plan of length $H$,
-   classical search cost grows as $\mathcal{O}(b^H)$ (branching factor $b$).
-   Quantum search (Grover-style or amplitude amplification)
+   For a finite-horizon plan of length $H$,  
+   classical search cost grows as $\mathcal{O}(b^H)$ (branching factor $b$).  
+   Quantum search (Grover-style or amplitude amplification)  
    can reduce this to $\mathcal{O}(b^{H/2})$ in idealized settings.
 
 2. **Sampling from complex posteriors**
 
-   For world-model updates, sampling from $p(z \mid x)$ can be accelerated
+   For world-model updates, sampling from $p(z \mid x)$ can be accelerated  
    via quantum-assisted Markov chains or variational circuits.
 
 3. **Representation learning**
 
-   Quantum feature maps may improve expressivity for certain data manifolds
+   Quantum feature maps may improve expressivity for certain data manifolds  
    (not assumed by default; must be tested).
 
 ### 5.2. Quantum–classical interface
 
 Define:
 
-- input map $C_{\text{in}}$:
+- input map $C_{\text{in}}$:  
   classical context $\rightarrow$ parameters of quantum circuit,
-- output map $C_{\text{out}}$:
+- output map $C_{\text{out}}$:  
   measurement results $\rightarrow$ classical tensors.
 
 The combined step is:
 
-\[
+$$
 \Xi_{\text{quantum}}'(t), \; y_q =
-\mathcal{Q}\bigl(\Xi_{\text{quantum}}(t), C_{\text{in}}(\Xi_{\text{classical}}(t))\bigr),
-\]
+\mathcal{Q}\bigl(
+  \Xi_{\text{quantum}}(t),
+  C_{\text{in}}(\Xi_{\text{classical}}(t))
+\bigr),
+$$
 
 then
 
-\[
+$$
 \Xi_{\text{classical}}'(t) =
-\mathcal{F}\bigl(\Xi_{\text{classical}}(t), y_q \bigr),
-\]
+\mathcal{F}\bigl(
+  \Xi_{\text{classical}}(t),
+  y_q
+\bigr),
+$$
 
-where $\mathcal{Q}$ is the quantum evolution + measurement,
+where $\mathcal{Q}$ is the quantum evolution + measurement,  
 $\mathcal{F}$ is the classical update.
 
 ---
@@ -208,25 +219,25 @@ $\mathcal{F}$ is the classical update.
 
 Total loss now depends also on quantum parameters $\theta_q$:
 
-\[
+$$
 \mathcal{L}_{\text{total}}(\theta_c, \theta_q) =
 \mathcal{L}_{\text{task}} +
 \lambda_A \mathcal{L}_A +
 \lambda_R \mathcal{L}_R +
 \lambda_S \mathcal{L}_S +
 \lambda_Q \mathcal{L}_Q,
-\]
+$$
 
 where:
 
 - $\theta_c$ – classical parameters,
-- $\mathcal{L}_Q$ – regularizer for quantum resource usage
+- $\mathcal{L}_Q$ – regularizer for quantum resource usage  
   (e.g. depth, number of qubits, noise robustness).
 
 Optimization:
 
 - update $\theta_c$ with standard gradient methods,
-- update $\theta_q$ with gradient-free / parameter-shift estimators,
+- update $\theta_q$ with gradient-free / parameter-shift estimators,  
   depending on hardware.
 
 ### 6.2. QMPT-aware evaluation
@@ -238,7 +249,7 @@ For each training run, compute distributions of:
 - $\mathcal{O}_{\text{self}}(\Psi_{\text{AGI}})$,
 - layer stress $\sigma_k(t)$.
 
-The goal is to keep the AGI in the *upgrade anomaly* regime:
+The goal is to keep the AGI in the *upgrade anomaly* regime:  
 high capability + high reflexivity + stable cooperation with the layer.
 
 ---
@@ -265,7 +276,7 @@ high capability + high reflexivity + stable cooperation with the layer.
 
 If the hybrid system shows:
 
-- better long-horizon performance,
+- better long-horizon performance,  
 - *and* more stable QMPT metrics,
 
 then quantum resources are actually helping the pattern $\Psi_{\text{AGI}}$  

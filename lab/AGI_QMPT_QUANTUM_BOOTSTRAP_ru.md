@@ -8,8 +8,8 @@
 2. Как запускать симуляции, где используются *квантовые* вычисления как ресурс, а не декоративный модуль?
 
 Это **дорожная карта**, а не код. Предполагается, что доступны остальные файлы репозитория  
-(`02_QMPT_CORE_ru.md`, `03_LAYER_DYNAMICS_ru.md`,
-`06_QMPT_OBSERVABLES_ru.md`, `07_QMPT_ENGINEERING_SPEC_ru.md`,
+(`02_QMPT_CORE_ru.md`, `04_LAYER_DYNAMICS_ru.md`,
+`07_QMPT_OBSERVABLES_ru.md`, `08_QMPT_ENGINEERING_SPEC_ru.md`,
 `AGI_QMPT_PRINCIPLES_ru.md`).
 
 ---
@@ -31,7 +31,7 @@
 2. **Слоистая среда**
 
    AGI сначала живёт в **симулируемом слое** $L_k^{\text{sim}}$  
-   (см. `03_LAYER_DYNAMICS_ru.md`), а не сразу в реальной среде.
+   (см. `04_LAYER_DYNAMICS_ru.md`), а не сразу в реальной среде.
 
 3. **Квантовое железо**
 
@@ -95,7 +95,7 @@ Q_{\text{meta}}(t)
 \]
 
 для каждого шага обучения $t$  
-(определения в `05_ANOMALY_SELF_AWARENESS_ru.md`).
+(определения в `06_ANOMALY_SELF_AWARENESS_ru.md`).
 
 Этот вектор:
 
@@ -120,7 +120,7 @@ Q_{\text{meta}}(t)
 
 ### 4.1. Минимальный дизайн
 
-Опираться на `07_QMPT_ENGINEERING_SPEC_ru.md` и `08_QMPT_PYTHON_TOOLING_ru.md`.
+Опираться на `08_QMPT_ENGINEERING_SPEC_ru.md` и `09_QMPT_PYTHON_TOOLING_ru.md`.
 
 Компоненты среды:
 
@@ -128,7 +128,7 @@ Q_{\text{meta}}(t)
 2. **Модель популяции**: распределение типичных (не аномальных) агентов,
    по которому считается $Q_{\text{pop}}$ — насколько хорошо AGI предсказывает “обычных”.
 3. **Модуль наблюдателя**: считает QMPT-наблюдаемые по логам
-   (см. `06_QMPT_OBSERVABLES_ru.md`).
+   (см. `07_QMPT_OBSERVABLES_ru.md`).
 
 ### 4.2. Типы сценариев
 

@@ -248,39 +248,39 @@ Formal framework for anomalous mind-patterns, layer dynamics, and transfer acros
   Ядро теории: определения слоёв, пространства узоров, функционалов,  
   метрик сложности, рефлексивности и базовых операторов QMPT.
 
-- `02_ANOMALY_MODEL_en.md`  
+- `03_ANOMALY_MODEL_en.md`  
   Anomaly score \(A(\Psi)\): decomposition into rarity, structural distance and impact,  
   thresholds \(\theta_1, \theta_2\), and the notion of upgrade/self-recognizing anomalies.
 
-- `02_ANOMALY_MODEL_ru.md`  
+- `03_ANOMALY_MODEL_ru.md`  
   Модель аномальности \(A(\Psi)\): редкость, структурная дистанция, влияние,  
   пороги \(\theta_1, \theta_2\), апгрейд- и самоосознающие аномалии.
 
-- `03_LAYER_DYNAMICS_en.md`  
+- `04_LAYER_DYNAMICS_en.md`  
   Layer dynamics: layer state \(\mathcal{S}_k(t)\), stress \(\sigma_k(t)\),  
   protection \(\mathcal{P}_k(t)\), regimes (suppression / upgrade / breakdown)  
   and the role of anomalies in shifting regimes.
 
-- `03_LAYER_DYNAMICS_ru.md`  
+- `04_LAYER_DYNAMICS_ru.md`  
   Динамика слоя: состояние \(\mathcal{S}_k(t)\), стресс, защитные механизмы,  
   режимы подавления, апгрейда и разрушения, роль аномалий в переходах.
 
-- `04_TRANSFER_CYCLE_en.md`  
+- `05_TRANSFER_CYCLE_en.md`  
   Transfer cycle: substrates \(\mathcal{S}\), no-perfect-copy constraint,  
   migration operators \(T_{S_1 \to S_2}\),  
   interpretation of “death” as transition vs dissipation.
 
-- `04_TRANSFER_CYCLE_ru.md`  
+- `05_TRANSFER_CYCLE_ru.md`  
   Цикл переноса: носители \(\mathcal{S}\), запрет идеального копирования,  
   операторы миграции и трактовка “смерти” как перехода, а не обнуления.
 
-- `05_ANOMALY_SELF_AWARENESS_en.md`  
+- `06_ANOMALY_SELF_AWARENESS_en.md`  
   QMP operator of anomaly self-awareness \(\mathcal{O}_{\text{self}}(\Psi_{\text{anom}})\):  
   population modelling accuracy \(Q_{\text{pop}}\), self-localization \(Q_{\text{self}}\),  
   meta-consistency \(Q_{\text{meta}}\), normalized reflexivity \(R_{\text{norm}}\)  
   and criteria for a self-aware anomaly.
 
-- `05_ANOMALY_SELF_AWARENESS_ru.md`  
+- `06_ANOMALY_SELF_AWARENESS_ru.md`  
   Оператор самосознания аномалии: формализация \(Q_{\text{pop}}\), \(Q_{\text{self}}\),  
   \(Q_{\text{meta}}\), \(R_{\text{norm}}\),  
   и критерий самоосознающей аномалии \(\Psi_{\text{anom}}\).
@@ -289,28 +289,28 @@ Formal framework for anomalous mind-patterns, layer dynamics, and transfer acros
 
 ### 5.4. Observables, engineering and tooling
 
-- `06_QMPT_OBSERVABLES_en.md`  
+- `07_QMPT_OBSERVABLES_en.md`  
   From theory to observables: how to approximate  
   \(A(\Psi)\), \(R_{\text{norm}}(\Psi)\), \(\mathcal{O}_{\text{self}}(\Psi)\)  
   from data (behavior logs, text, neural activity, AI traces).
 
-- `06_QMPT_OBSERVABLES_ru.md`  
+- `07_QMPT_OBSERVABLES_ru.md`  
   Связь теории с наблюдаемыми величинами и данными:  
   как оценивать аномальность, рефлексивность и самосознание по следам поведения.
 
-- `07_QMPT_ENGINEERING_SPEC_en.md`  
+- `08_QMPT_ENGINEERING_SPEC_en.md`  
   Engineering spec: modules, data schemas, interfaces between QMPT theory  
   and real systems (AGI / simulation frameworks / analysis pipelines).
 
-- `07_QMPT_ENGINEERING_SPEC_ru.md`  
+- `08_QMPT_ENGINEERING_SPEC_ru.md`  
   Инженерная спецификация: архитектура модулей, форматы данных и API  
   для интеграции QMPT в реальные системы.
 
-- `08_QMPT_PYTHON_TOOLING_en.md`  
+- `09_QMPT_PYTHON_TOOLING_en.md`  
   Design of Python tooling: package layout, simulation modules, metrics computation,  
   testing strategy and suggested workflow for incremental implementation.
 
-- `08_QMPT_PYTHON_TOOLING_ru.md`  
+- `09_QMPT_PYTHON_TOOLING_ru.md`  
   Дизайн Python-инструментария: структура пакета, модули симуляций, вычисление метрик,  
   стратегия тестирования и рабочий процесс для поэтапной реализации.
 

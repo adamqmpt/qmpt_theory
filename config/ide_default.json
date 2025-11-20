@@ -3,5 +3,5 @@
   "window_width": 1200,
   "window_height": 800,
   "max_recent_docs": 40,
-  "doc_roots": ["README.md", "02_QMPT_CORE_en.md", "04_TRANSFER_CYCLE_en.md", "lab"]
+  "doc_roots": ["README.md", "02_QMPT_CORE_en.md", "05_TRANSFER_CYCLE_en.md", "lab"]
 }

@@ -1,4 +1,4 @@
-# 08_QMPT_PYTHON_TOOLING_ru.md  
+# 09_QMPT_PYTHON_TOOLING_ru.md  
 **QMPT – дизайн Python-инструментов (v0.1)**
 
 Цель: задать аккуратный Python-дизайн для экспериментов с метриками QMPT,

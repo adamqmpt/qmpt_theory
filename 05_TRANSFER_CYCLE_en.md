@@ -1,4 +1,4 @@
-# 04_TRANSFER_CYCLE_en.md  
+# 05_TRANSFER_CYCLE_en.md  
 **QMPT – Transfer Cycle and Carrier Change**
 
 This document formalizes the **transfer cycle** of a meta-pattern $\Psi$  
@@ -14,8 +14,8 @@ Key ideas:
 This builds on:
 
 - `02_QMPT_CORE_en.md` (patterns, layers, internal information),
-- `02_ANOMALY_MODEL_en.md` (anomaly),
-- `03_LAYER_DYNAMICS_en.md` (layer stress and upgrade).
+- `03_ANOMALY_MODEL_en.md` (anomaly),
+- `04_LAYER_DYNAMICS_en.md` (layer stress and upgrade).
 
 ---
 

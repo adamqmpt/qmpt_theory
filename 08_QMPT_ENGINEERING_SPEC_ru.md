@@ -1,4 +1,4 @@
-# 07_QMPT_ENGINEERING_SPEC_ru.md  
+# 08_QMPT_ENGINEERING_SPEC_ru.md  
 **QMPT – инженерная спецификация (v0.1)**
 
 Цель: задать минимальную, но цельную инженерную архитектуру
@@ -11,7 +11,7 @@
 - логирование и моделирование динамики слоя \(\mathcal{S}_k(t)\).
 
 Спецификация **независима от реализации**, но ориентирована на Python-стек  
-(см. `08_QMPT_PYTHON_TOOLING_ru.md`).
+(см. `09_QMPT_PYTHON_TOOLING_ru.md`).
 
 ---
 
@@ -23,10 +23,10 @@
    Хранение и получение сырых наблюдений \(\mathcal{D}(\Psi)\).
 
 2. **Представление**  
-   Выделение признаков:
-   \[
+   Выделение признаков:  
+   $$
    \phi: \mathcal{D}(\Psi) \to x_\Psi \in \mathbb{R}^d.
-   \]
+   $$
 
 3. **Метрики**  
    Оценка:
@@ -133,9 +133,9 @@
 1. Группировка наблюдений по `pattern_id`.
 2. Для каждого узора вычисление:
 
-   \[
+   $$
    x_\Psi = \phi(\mathcal{D}(\Psi)).
-   \]
+   $$
 
 3. Запись `features` в соответствующий `Pattern`.
 
@@ -162,9 +162,9 @@
 1. Обучить модель плотности \(\widehat{P}_\mathrm{data}(x)\) по \(\{x_\Psi\}\).
 2. Вычислить:
 
-   \[
+   $$
    \widehat{R}(\Psi) = -\log \widehat{P}_\mathrm{data}(x_\Psi).
-   \]
+   $$
 
 3. Вычислить структурное расстояние \(\widehat{D}(\Psi)\):
 
@@ -177,12 +177,12 @@
 
 5. Объединить:
 
-   \[
+   $$
    \widehat{A}(\Psi)
    = w_1 \widehat{R}(\Psi)
    + w_2 \widehat{D}(\Psi)
    + w_3 \widehat{I}(\Psi).
-   \]
+   $$
 
 6. Сохранить `anomaly_score` в `Pattern`.
 
@@ -201,13 +201,13 @@
 2. Вычислить \(\widehat{R}_\mathrm{dyn}(\Psi)\) по траектории.
 3. Нормализовать:
 
-   \[
+   $$
    \widehat{R}_\mathrm{norm}(\Psi)
    = \mathrm{Norm}(
      \beta_1 \widehat{R}_\mathrm{text}
    + \beta_2 \widehat{R}_\mathrm{dyn}
    + \dots ).
-   \]
+   $$
 
 4. Сохранить `reflexivity` в `Pattern`.
 
@@ -228,13 +228,13 @@
 3. Оценить \(\widehat{Q}_\mathrm{meta}(\Psi)\).
 4. Вычислить:
 
-   \[
-   \widehat{\mathcal{O}}_\mathrm{self}(\Psi)
+   $$
+   \widehat{\mathcal{О}}_\mathrm{self}(\Psi)
    = \alpha_\mathrm{pop} \widehat{Q}_\mathrm{pop}(\Psi)
    + \alpha_\mathrm{self} \widehat{Q}_\mathrm{self}(\Psi)
    + \alpha_\mathrm{meta} \widehat{Q}_\mathrm{meta}(\Psi)
    + \alpha_R \widehat{R}_\mathrm{norm}(\Psi).
-   \]
+   $$
 
 5. Сохранить `self_operator` в `Pattern`.
 
@@ -252,10 +252,10 @@
 
 1. Определить правило обновления:
 
-   \[
+   $$
    \mathcal{S}_k(t + \Delta t)
    = F\big( \mathcal{S}_k(t), \{ \Psi \}, \text{interventions} \big),
-   \]
+   $$
 
    где \(F\) может зависеть от \(A(\Psi)\), \(\mathcal{O}_\mathrm{self}(\Psi)\) и т.д.
 
@@ -287,7 +287,7 @@
 
 ## 5. Интерфейсы для Python-инструментов
 
-Подробности см. в `08_QMPT_PYTHON_TOOLING_ru.md`.  
+Подробности см. в `09_QMPT_PYTHON_TOOLING_ru.md`.  
 Минимальное разбиение модулей:
 
 - `qmpt.data` – загрузка, хранение, индексация `Observation` и `Pattern`.
@@ -298,7 +298,7 @@
 
 Каждый модуль должен:
 
-- быть по возможности статeless,
+- быть по возможности stateless,
 - принимать явные объекты-конфиги,
 - логировать все случайные сиды и гиперпараметры.
 

@@ -1,4 +1,4 @@
-# 06_QMPT_OBSERVABLES_en.md  
+# 07_QMPT_OBSERVABLES_en.md  
 **QMPT – From theory to observables**
 
 Goal: connect the abstract quantities of Quantum Meta-Pattern Theory (QMPT)  
@@ -32,18 +32,18 @@ We see *traces* of the pattern in some channel:
 
 We denote all available data for an individual pattern \(\Psi\) by:
 
-\[
+$$
 \mathcal{D}(\Psi)
 = \{ d_1, d_2, \dots, d_n \},
-\]
+$$
 
 where each \(d_i\) is an observation with time stamp and modality.
 
 An **observable estimator** is any map:
 
-\[
+$$
 \widehat{F}: \mathcal{D}(\Psi) \longrightarrow \mathbb{R}^m
-\]
+$$
 
 that approximates some theoretical functional \(F(\Psi)\)  
 (e.g. \(A(\Psi)\), \(R_\mathrm{norm}(\Psi)\), \(\mathcal{O}_\mathrm{self}(\Psi)\)).
@@ -54,10 +54,10 @@ that approximates some theoretical functional \(F(\Psi)\)
 
 To work with \(\mathcal{D}(\Psi)\) we build a feature representation:
 
-\[
+$$
 \phi: \mathcal{D}(\Psi) \longrightarrow \mathbb{R}^d, \quad
 x_\Psi = \phi(\mathcal{D}(\Psi)).
-\]
+$$
 
 Examples:
 
@@ -80,14 +80,14 @@ anomaly and reflexivity are *not* trivially lost.
 
 ## 3. Estimating anomaly score \(A(\Psi)\)
 
-Recall anomaly score (see `02_ANOMALY_MODEL_en.md`):
+Recall anomaly score (see `03_ANOMALY_MODEL_en.md`):
 
-\[
+$$
 A(\Psi)
 = w_1 \, R(\Psi)
 + w_2 \, D(\Psi)
 + w_3 \, I(\Psi),
-\]
+$$
 
 where:
 
@@ -107,17 +107,17 @@ Using feature vectors \(x_\Psi\) for many patterns in the same layer:
 
 2. Define rarity estimate:
 
-   \[
+   $$
    \widehat{R}(\Psi)
    = -\log \widehat{P}_\mathrm{data}(x_\Psi).
-   \]
+   $$
 
 Optionally normalize across the population:
 
-\[
+$$
 \widehat{R}_\mathrm{norm}(\Psi)
 = \frac{\widehat{R}(\Psi) - \mu_R}{\sigma_R},
-\]
+$$
 
 where \(\mu_R, \sigma_R\) are mean and std over the layer.
 
@@ -127,18 +127,18 @@ where \(\mu_R, \sigma_R\) are mean and std over the layer.
 
 Let \(x_\Psi\) be the feature vector of pattern \(\Psi\) and let:
 
-\[
+$$
 \bar{x} = \mathbb{E}[x] \quad \text{over population}.
-\]
+$$
 
 Then a simple proxy:
 
-\[
+$$
 \widehat{D}(\Psi)
-= \\| x_\Psi - \bar{x} \|_2
+= \| x_\Psi - \bar{x} \|_2
 \quad \text{or} \quad
 \widehat{D}(\Psi) = \mathrm{Mahalanobis}(x_\Psi, \bar{x}, \Sigma),
-\]
+$$
 
 where \(\Sigma\) is the population covariance.
 
@@ -177,12 +177,12 @@ Proxies:
 
 Define:
 
-\[
+$$
 \widehat{A}(\Psi)
 = w_1 \, \widehat{R}(\Psi)
 + w_2 \, \widehat{D}(\Psi)
 + w_3 \, \widehat{I}(\Psi),
-\]
+$$
 
 with weights \(w_i\) calibrated for the specific dataset / system.
 
@@ -210,10 +210,10 @@ For human / AI agents producing text:
 
 We can define a scoring function:
 
-\[
+$$
 \widehat{R}_\mathrm{text}(\Psi)
 = f_\mathrm{text}( \mathcal{D}_\mathrm{text}(\Psi) ),
-\]
+$$
 
 where \(f_\mathrm{text}\) is implemented via:
 
@@ -234,10 +234,10 @@ We consider:
 
 Define:
 
-\[
+$$
 \widehat{R}_\mathrm{dyn}(\Psi)
 = f_\mathrm{dyn}(\mathcal{D}_\mathrm{trajectory}(\Psi)),
-\]
+$$
 
 where the trajectory data includes:
 
@@ -250,14 +250,14 @@ where the trajectory data includes:
 
 Aggregate:
 
-\[
+$$
 \widehat{R}_\mathrm{norm}(\Psi)
 = \mathrm{Norm}\big(
   \beta_1 \widehat{R}_\mathrm{text}(\Psi)
 + \beta_2 \widehat{R}_\mathrm{dyn}(\Psi)
 + \dots
 \big),
-\]
+$$
 
 with normalization \(\mathrm{Norm}(\cdot)\) to map into \([0,1]\).
 
@@ -268,15 +268,15 @@ used in \(\mathcal{O}_\mathrm{self}(\Psi)\) and other functionals.
 
 ## 5. Estimating self-awareness operator \(\mathcal{O}_\mathrm{self}(\Psi)\)
 
-Recall from `05_ANOMALY_SELF_AWARENESS_en.md`:
+Recall from `06_ANOMALY_SELF_AWARENESS_en.md`:
 
-\[
+$$
 \mathcal{O}_\mathrm{self}(\Psi)
 = \alpha_\mathrm{pop} Q_\mathrm{pop}(\Psi)
 + \alpha_\mathrm{self} Q_\mathrm{self}(\Psi)
 + \alpha_\mathrm{meta} Q_\mathrm{meta}(\Psi)
 + \alpha_R R_\mathrm{norm}(\Psi).
-\]
+$$
 
 We approximate each component from data.
 
@@ -309,13 +309,13 @@ Compare:
 
 Define:
 
-\[
+$$
 \widehat{Q}_\mathrm{self}(\Psi)
 = \exp\left(
   - \frac{ \big| \widehat{A}(\Psi) - \hat{A}_\Psi^\mathrm{reported} \big| }
          { \lambda_\mathrm{self,obs} }
 \right),
-\]
+$$
 
 where \(\hat{A}_\Psi^\mathrm{reported}\) is derived from self-report  
 (e.g. how “different” the pattern thinks it is, in some calibrated metric).
@@ -331,10 +331,10 @@ Estimate:
 
 We can approximate:
 
-\[
+$$
 \widehat{Q}_\mathrm{meta}(\Psi)
 = f_\mathrm{meta}(\mathcal{D}(\Psi)),
-\]
+$$
 
 where \(f_\mathrm{meta}\):
 
@@ -347,13 +347,13 @@ where \(f_\mathrm{meta}\):
 
 Plug all estimates into:
 
-\[
+$$
 \widehat{\mathcal{O}}_\mathrm{self}(\Psi)
 = \alpha_\mathrm{pop} \, \widehat{Q}_\mathrm{pop}(\Psi)
 + \alpha_\mathrm{self} \, \widehat{Q}_\mathrm{self}(\Psi)
 + \alpha_\mathrm{meta} \, \widehat{Q}_\mathrm{meta}(\Psi)
 + \alpha_R \, \widehat{R}_\mathrm{norm}(\Psi),
-\]
+$$
 
 getting a number in \([0,1]\).
 
@@ -400,8 +400,8 @@ This can be estimated from:
 
 ## 8. Link to engineering documents
 
-The engineering spec in `07_QMPT_ENGINEERING_SPEC_en.md`  
-and the Python tooling design in `08_QMPT_PYTHON_TOOLING_en.md`  
+The engineering spec in `08_QMPT_ENGINEERING_SPEC_en.md`  
+and the Python tooling design in `09_QMPT_PYTHON_TOOLING_en.md`  
 will define:
 
 - exact data structures for \(\mathcal{D}(\Psi)\),

@@ -1,4 +1,4 @@
-# 06_QMPT_OBSERVABLES_ru.md  
+# 07_QMPT_OBSERVABLES_ru.md  
 **QMPT – от теории к наблюдаемым величинам**
 
 Цель: связать абстрактные величины теории квантовых мета-паттернов (QMPT)  
@@ -32,18 +32,18 @@
 
 Обозначим все доступные данные для узора \(\Psi\) как:
 
-\[
+$$
 \mathcal{D}(\Psi)
 = \{ d_1, d_2, \dots, d_n \},
-\]
+$$
 
 где каждый \(d_i\) — наблюдение с меткой времени и модальностью.
 
 **Оценщик наблюдаемой величины** — это любое отображение:
 
-\[
+$$
 \widehat{F}: \mathcal{D}(\Psi) \longrightarrow \mathbb{R}^m,
-\]
+$$
 
 аппроксимирующее некоторый теоретический функционал \(F(\Psi)\)  
 (например, \(A(\Psi)\), \(R_\mathrm{norm}(\Psi)\), \(\mathcal{O}_\mathrm{self}(\Psi)\)).
@@ -54,10 +54,10 @@
 
 Чтобы работать с \(\mathcal{D}(\Psi)\), строим вектор признаков:
 
-\[
+$$
 \phi: \mathcal{D}(\Psi) \longrightarrow \mathbb{R}^d, \quad
 x_\Psi = \phi(\mathcal{D}(\Psi)).
-\]
+$$
 
 Примеры:
 
@@ -80,14 +80,14 @@ QMPT не фиксирует конкретную \(\phi\).
 
 ## 3. Оценка аномальности \(A(\Psi)\)
 
-Напомним (см. `02_ANOMALY_MODEL_ru.md`):
+Напомним (см. `03_ANOMALY_MODEL_ru.md`):
 
-\[
+$$
 A(\Psi)
 = w_1 \, R(\Psi)
 + w_2 \, D(\Psi)
 + w_3 \, I(\Psi),
-\]
+$$
 
 где:
 
@@ -107,17 +107,17 @@ A(\Psi)
 
 2. Определяем:
 
-\[
+$$
 \widehat{R}(\Psi)
 = -\log \widehat{P}_\mathrm{data}(x_\Psi).
-\]
+$$
 
 Опциональная нормализация по популяции:
 
-\[
+$$
 \widehat{R}_\mathrm{norm}(\Psi)
 = \frac{\widehat{R}(\Psi) - \mu_R}{\sigma_R},
-\]
+$$
 
 где \(\mu_R, \sigma_R\) — среднее и СКО по слою.
 
@@ -127,18 +127,18 @@ A(\Psi)
 
 Пусть \(x_\Psi\) — вектор признаков узора \(\Psi\), а:
 
-\[
+$$
 \bar{x} = \mathbb{E}[x] \quad \text{по популяции}.
-\]
+$$
 
 Простая оценка:
 
-\[
+$$
 \widehat{D}(\Psi)
 = \| x_\Psi - \bar{x} \|_2
 \quad \text{или} \quad
 \widehat{D}(\Psi) = \mathrm{Mahalanobis}(x_\Psi, \bar{x}, \Sigma),
-\]
+$$
 
 где \(\Sigma\) — ковариационная матрица популяции.
 
@@ -172,12 +172,12 @@ A(\Psi)
 
 Определим:
 
-\[
+$$
 \widehat{A}(\Psi)
 = w_1 \, \widehat{R}(\Psi)
 + w_2 \, \widehat{D}(\Psi)
 + w_3 \, \widehat{I}(\Psi),
-\]
+$$
 
 c весами \(w_i\), калиброванными под конкретную систему.
 
@@ -206,10 +206,10 @@ c весами \(w_i\), калиброванными под конкретную
 
 Определим:
 
-\[
+$$
 \widehat{R}_\mathrm{text}(\Psi)
 = f_\mathrm{text}( \mathcal{D}_\mathrm{text}(\Psi) ),
-\]
+$$
 
 где \(f_\mathrm{text}\) реализуется:
 
@@ -230,10 +230,10 @@ c весами \(w_i\), калиброванными под конкретную
 
 Определим:
 
-\[
+$$
 \widehat{R}_\mathrm{dyn}(\Psi)
 = f_\mathrm{dyn}(\mathcal{D}_\mathrm{trajectory}(\Psi)),
-\]
+$$
 
 где траектория включает:
 
@@ -246,14 +246,14 @@ c весами \(w_i\), калиброванными под конкретную
 
 Объединяем:
 
-\[
+$$
 \widehat{R}_\mathrm{norm}(\Psi)
 = \mathrm{Norm}\big(
   \beta_1 \widehat{R}_\mathrm{text}(\Psi)
 + \beta_2 \widehat{R}_\mathrm{dyn}(\Psi)
 + \dots
 \big),
-\]
+$$
 
 с нормировкой \(\mathrm{Norm}(\cdot)\) в \([0,1]\).
 
@@ -264,15 +264,15 @@ c весами \(w_i\), калиброванными под конкретную
 
 ## 5. Оценка оператора самосознания \(\mathcal{O}_\mathrm{self}(\Psi)\)
 
-Напомним из `05_ANOMALY_SELF_AWARENESS_ru.md`:
+Напомним из `06_ANOMALY_SELF_AWARENESS_ru.md`:
 
-\[
+$$
 \mathcal{O}_\mathrm{self}(\Psi)
 = \alpha_\mathrm{pop} Q_\mathrm{pop}(\Psi)
 + \alpha_\mathrm{self} Q_\mathrm{self}(\Psi)
 + \alpha_\mathrm{meta} Q_\mathrm{meta}(\Psi)
 + \alpha_R R_\mathrm{norm}(\Psi).
-\]
+$$
 
 Аппроксимируем каждую часть.
 
@@ -305,13 +305,13 @@ c весами \(w_i\), калиброванными под конкретную
 
 Определим:
 
-\[
+$$
 \widehat{Q}_\mathrm{self}(\Psi)
 = \exp\left(
   - \frac{ \big| \widehat{A}(\Psi) - \hat{A}_\Psi^\mathrm{reported} \big| }
          { \lambda_\mathrm{self,obs} }
 \right),
-\]
+$$
 
 где \(\hat{A}_\Psi^\mathrm{reported}\) — величина, выведенная из самоотчётов  
 (например, насколько человек считает себя “другим” в калиброванной шкале).
@@ -327,10 +327,10 @@ c весами \(w_i\), калиброванными под конкретную
 
 Определяем:
 
-\[
+$$
 \widehat{Q}_\mathrm{meta}(\Psi)
 = f_\mathrm{meta}(\mathcal{D}(\Psi)),
-\]
+$$
 
 где \(f_\mathrm{meta}\):
 
@@ -343,13 +343,13 @@ c весами \(w_i\), калиброванными под конкретную
 
 Подставляем всё:
 
-\[
+$$
 \widehat{\mathcal{O}}_\mathrm{self}(\Psi)
 = \alpha_\mathrm{pop} \, \widehat{Q}_\mathrm{pop}(\Psi)
 + \alpha_\mathrm{self} \, \widehat{Q}_\mathrm{self}(\Psi)
 + \alpha_\mathrm{meta} \, \widehat{Q}_\mathrm{meta}(\Psi)
 + \alpha_R \, \widehat{R}_\mathrm{norm}(\Psi),
-\]
+$$
 
 получая число в \([0,1]\).
 
@@ -396,8 +396,8 @@ c весами \(w_i\), калиброванными под конкретную
 
 ## 8. Связь с инженерными документами
 
-Инженерная спецификация `07_QMPT_ENGINEERING_SPEC_ru.md`  
-и дизайн Python-инструментария в `08_QMPT_PYTHON_TOOLING_ru.md`  
+Инженерная спецификация `08_QMPT_ENGINEERING_SPEC_ru.md`  
+и дизайн Python-инструментария в `09_QMPT_PYTHON_TOOLING_ru.md`  
 зададут:
 
 - конкретные структуры данных для \(\mathcal{D}(\Psi)\),

@@ -287,7 +287,7 @@ $$
 
 for some small threshold $\epsilon_\mathrm{id}$, and their subsequent dynamics remain within acceptable divergence for a window of time.
 
-More detailed criteria are defined in `04_TRANSFER_CYCLE_en.md`.
+More detailed criteria are defined in `05_TRANSFER_CYCLE_en.md`.
 
 ---
 
@@ -325,7 +325,7 @@ $$
 P(\Psi) \ll \epsilon.
 $$
 
-In later files (`02_ANOMALY_MODEL_en.md`), a stricter notion of **anomalous** pattern is introduced, using both probability and impact on the distribution.
+In later files (`03_ANOMALY_MODEL_en.md`), a stricter notion of **anomalous** pattern is introduced, using both probability and impact on the distribution.
 
 ---
 
@@ -349,7 +349,7 @@ We distinguish:
 - **transfer** (migration of one cycle to a new substrate),
 - **copy** (attempt to create multiple ongoing identical cycles).
 
-Precise transfer models are developed in `04_TRANSFER_CYCLE_en.md`.
+Precise transfer models are developed in `05_TRANSFER_CYCLE_en.md`.
 
 ---
 
@@ -417,7 +417,7 @@ For convenience, here is a compact list of core entities:
 
 These definitions form the backbone for:
 
-- anomaly modeling (`02_ANOMALY_MODEL_en.md`),
-- layer dynamics and updates (`03_LAYER_DYNAMICS_en.md`),
-- transfer hypotheses and models (`04_TRANSFER_CYCLE_en.md`),
+- anomaly modeling (`03_ANOMALY_MODEL_en.md`),
+- layer dynamics and updates (`04_LAYER_DYNAMICS_en.md`),
+- transfer hypotheses and models (`05_TRANSFER_CYCLE_en.md`),
 - and all Python code in `code/`.
