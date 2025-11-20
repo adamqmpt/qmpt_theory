@@ -332,6 +332,20 @@ Current files:
   Принципы проектирования AGI на основе QMPT: AGI как узор \(\Psi_{\text{AGI}}\)  
   с явными метриками аномальности и самосознания и согласованной функцией потерь.
 
+- `lab/ANOMALOUS_PATTERN_PSYCHOLOGY_en.md`  
+  Psychological framing of an anomalous pattern \(\Psi_{\text{anom}}\):  
+  cognitive style, motivation, resilience, trajectory; why it qualifies as a statistical/functional anomaly.
+
+- `lab/ANOMALOUS_PATTERN_PSYCHOLOGY_ru.md`  
+  Психологическое описание аномального узора \(\Psi_{\text{anom}}\):  
+  когнитивный стиль, мотивация, устойчивость, траектория; обоснование аномальности с точки зрения QMPT.
+
+- `lab/QMPT_FUTURE_SCIENCE_en.md` / `_ru.md`  
+  Future scientific disciplines implied by QMPT (layer physics, pattern dynamics, continuity engineering, ethics).
+
+- `lab/AGI_QMPT_QUANTUM_BOOTSTRAP_en.md` / `_ru.md`  
+  Roadmap for QMPT-aware AGI using quantum resources; staged plan from classical prototype to hybrid quantum modules.
+
 `lab/` is intended for:
 
 - draft operators and alternative formalisms,
@@ -340,18 +354,17 @@ Current files:
 
 ---
 
-### 5.6. QMPT Lab IDE (v0.2.0)
+### 5.6. QMPT Lab IDE (v0.4.0)
 
-- `code/qmpt_ide/` — Tkinter-based dark-theme IDE for quick QMPT experiments:
-  - document browser for core `.md` files,
-  - read-only viewer,
-  - note editor saving to `lab/notes/`,
-  - status/log area.
-- `config/ide_default.json` — default UI and workspace settings.  
-  Override by passing a custom JSON path to `load_config`.
-- How to launch:  
-  `python -m code.qmpt_ide.app`
-- Notes and logs live under `lab/notes/` and `lab/logs/`.
+- `code/qmpt_ide/` — modular dark-theme Tkinter IDE for QMPT experiments:
+  - document browser for `.md` theory files,
+  - note editor with preview (saved to `lab/notes/`),
+  - run control panel (config picker, backend selection, run history, log viewer),
+  - optional plotting of results (graceful fallback if matplotlib is missing),
+  - simulation backends: classical (toy layer dynamics) + quantum stub.
+- `config/ide_default.json` — default UI/workspace settings (paths, backend defaults, theme).
+- Launch: `python3 -m code.qmpt_ide.app`
+- Logs: `lab/logs/`; results: `lab/results/`; run registry: `lab/runs.jsonl`.
 
 ---
 
