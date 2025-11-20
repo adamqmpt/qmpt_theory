@@ -23,6 +23,7 @@ class RunRecord:
     metrics: Dict[str, Any]
     git_commit: Optional[str] = None
     config_hash: Optional[str] = None
+    dataset_id: Optional[str] = None
 
 
 class RunRegistry:

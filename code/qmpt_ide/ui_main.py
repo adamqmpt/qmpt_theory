@@ -62,4 +62,5 @@ class MainWindow(ttk.Frame):
 
     def _plot_results(self, result_dir):
         self.plot_panel.show(result_dir)
-        self.layer_inspector.load_run(result_dir)
+        dsid = getattr(self.state.current_run, "dataset_id", None) if self.state.current_run else None
+        self.layer_inspector.load_run(result_dir, dataset_id=dsid)

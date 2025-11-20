@@ -1,11 +1,11 @@
-# QMPT Lab IDE (v0.6.0 “Quantum Bridge”)
+# QMPT Lab IDE (v0.7.0 “Ensembles & Anomaly Tracking”)
 
 Dark-theme Tkinter IDE for QMPT experiments. Modular layout:
 
 - `app.py` – entry point, wires everything.
 - `core_config.py` – IDE config loader/saver.
 - `core_runs.py` – run registry (JSONL), run metadata.
-- `sim_runner.py` – backend abstraction (classical, quantum local simulator, hybrid stub).
+- `sim_runner.py` – backend abstraction (classical, quantum local simulator, hybrid cycle) + ensembles.
 - `state.py` – shared app state.
 - `ui_main.py` – assembles panels.
 - `ui_docs.py` – Markdown doc browser/viewer.
@@ -61,33 +61,86 @@ python3 -m code.qmpt_ide.app
 }
 ```
 
-3) In the IDE:
-- Set the config path (e.g., `lab/configs/classical_layer_dynamics.json` or `lab/configs/quantum_layer_stress_probe.json`).
-- Choose backend (`classical`, `quantum`, `hybrid` stub).
-- Click **Run**. Logs → `lab/logs/<run>.log`, results → `lab/results/<run>/`.
-- History lists runs; log viewer shows log content.
-- Plot panel saves plots to `lab/results/<run>/plot.png` if matplotlib is available (auto-detects classical vs quantum metrics).
-- Layer inspector surfaces metrics and patterns (classical) or quantum observables (quantum).
+3) Hybrid config (example, `lab/configs/hybrid_layer_cycle.json`):
+
+```json
+{
+  "backend": "hybrid",
+  "experiment_type": "hybrid_layer_cycle",
+  "probe_interval": 4,
+  "horizon": 16,
+  "dt": 1.0,
+  "quantum": { "n_qubits": 3, "circuit_depth": 2, "shots": 256 }
+}
+```
+
+4) Ensemble (repeat) config (example, `lab/configs/classical_ensemble.json`):
+
+```json
+{
+  "backend": "classical",
+  "ensemble": { "enabled": true, "mode": "repeat", "n_runs": 3, "description": "small repeat" }
+}
+```
+
+5) In the IDE:
+   - Set the config path (e.g., `lab/configs/classical_layer_dynamics.json` or `lab/configs/quantum_layer_stress_probe.json`).
+   - Choose backend (`classical`, `quantum`, `hybrid`).
+   - (Optional) toggle **Ensemble mode** and set `n_runs` and dataset note.
+   - Click **Run**. Logs → `lab/logs/<run>.log`, results → `lab/results/<run>/`.
+   - History lists runs; log viewer shows log content.
+   - Plot panel saves plots to `lab/results/<run>/plot.png` if matplotlib is available (auto-detects classical vs quantum metrics).
+   - Layer inspector surfaces metrics and patterns (classical) or quantum observables (quantum).
 
 ## QMPT core integration
 
 - Core package: `code/qmpt_core` (models, metrics, scenarios, IO).
 - Classical backend runs scenarios (baseline, anomaly injection, self-aware anomaly) and computes toy QMPT metrics.
 - Quantum backend maps layer stress/novelty/anomaly proxies to shallow qiskit circuits, measures observables (expectation values, entropy, anomaly proxy).
+- Hybrid backend couples classical layer dynamics with periodic quantum probes feeding back into stress/novelty.
 - Results under `lab/results/<run_id>/`:
   - `metrics.json` (summary + scenario/seed/backend),
   - `timeseries.npz`:
     - classical: `t, stress, protection, novelty`
     - quantum: `t, stress, novelty, expectation_mean, entropy, anomaly_proxy`
+    - hybrid: combined classical + quantum-derived arrays
   - `patterns.json` (classical patterns/metrics),
   - optional `plot.png` (if matplotlib is present).
 - Run logs: `lab/logs/<run_id>.log`; registry: `lab/runs.jsonl`.
 
+### Ensembles & datasets
+
+- Enable via config block:
+
+```json
+"ensemble": {
+  "enabled": true,
+  "mode": "repeat",
+  "n_runs": 8,
+  "description": "my sweep"
+}
+```
+
+- Dataset layout: `lab/datasets/<dataset_id>/`
+  - `dataset_manifest.json` (runs, paths, metadata)
+  - `ensemble_metrics.json` (aggregated anomaly/stress metrics)
+- Each run still produces normal `lab/results/<run_id>/…` artifacts and registry entries (with dataset_id).
+
+### CLI runner
+
+- Headless runs (single or ensemble):
+
+```bash
+python -m code.qmpt_runner --config lab/configs/classical_ensemble.json --ensemble-enabled
+```
+
+Outputs run/dataset summary and reuses the same logs/results layout as the IDE.
+
 ## Roadmap (summary)
 
-- v0.6.0 (current): Quantum Bridge — local simulator backend, QMPT→circuit encodings, quantum timeseries/metrics, UI backend selector.
-- v0.7.x: hybrid classical–quantum loop, localization (EN/RU), backend plugins, richer viz.
-- v0.8.x: optional remote/pluggable quantum backends, expanded scenarios.
+- v0.7.0 (current): Ensembles & Anomaly Tracking — run ensembles, dataset manifests, run/ensemble metrics, hybrid pipeline, CLI runner.
+- v0.8.x: richer quantum scenarios/noise models, improved visualization.
+- v0.9.x: integration with external data (text/trace ingestion) for observables.
 - v1.0: stable API, full workflows, hardened tests/docs.
 
 ## Notes / RU hooks

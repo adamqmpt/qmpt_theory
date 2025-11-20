@@ -1,0 +1,16 @@
+{
+  "backend": "hybrid",
+  "experiment_type": "hybrid_layer_cycle",
+  "scenario": "hybrid_layer_cycle",
+  "seed": 77,
+  "horizon": 16,
+  "dt": 1.0,
+  "logs_dir": "lab/logs",
+  "results_dir": "lab/results",
+  "probe_interval": 4,
+  "quantum": {
+    "n_qubits": 3,
+    "circuit_depth": 2,
+    "shots": 256
+  }
+}

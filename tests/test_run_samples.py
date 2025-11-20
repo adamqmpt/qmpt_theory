@@ -35,3 +35,24 @@ def test_quantum_stub_config(tmp_path: Path) -> None:
         assert "layer_stress_probe" in content
     else:
         assert "unavailable" in content or "quantum_dummy" in content
+
+
+def test_hybrid_config(tmp_path: Path) -> None:
+    root = repo_root()
+    cfg = root / "lab" / "configs" / "hybrid_layer_cycle.json"
+    registry = RunRegistry(tmp_path / "runs.jsonl")
+    runner = SimulationRunner(registry)
+    result = runner.run(cfg, BackendType.HYBRID)
+    assert (result.results_path / "metrics.json").exists()
+    assert (result.results_path / "timeseries.npz").exists()
+
+
+def test_classical_ensemble(tmp_path: Path) -> None:
+    root = repo_root()
+    cfg = root / "lab" / "configs" / "classical_ensemble.json"
+    registry = RunRegistry(tmp_path / "runs.jsonl")
+    runner = SimulationRunner(registry)
+    dataset_id, results = runner.run_ensemble(cfg, BackendType.CLASSICAL)
+    assert len(results) >= 2
+    ds_manifest = root / "lab" / "datasets" / dataset_id / "dataset_manifest.json"
+    assert ds_manifest.exists()

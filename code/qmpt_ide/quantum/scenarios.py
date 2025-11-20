@@ -8,7 +8,6 @@ observable proxies. They are intentionally lightweight and deterministic.
 from __future__ import annotations
 
 import json
-from pathlib import Path
 from typing import Dict, Tuple
 
 import numpy as np
@@ -92,14 +91,8 @@ def run_layer_stress_probe(config: Dict, backend: QuantumBackend) -> Tuple[Dict,
     return summary, timeseries
 
 
-def run_quantum_scenario(config: Dict, backend: QuantumBackend, log_path: Path, result_dir: Path) -> Dict:
+def run_quantum_scenario(config: Dict, backend: QuantumBackend, log_path, result_dir) -> Tuple[Dict, Dict[str, np.ndarray]]:
     scenario = config.get("scenario", "layer_stress_probe")
-    result_dir.mkdir(parents=True, exist_ok=True)
-    log_lines = [
-        f"backend={backend.name}",
-        f"scenario={scenario}",
-        f"seed={config.get('seed', 42)}",
-    ]
     available = getattr(backend, "is_available", True)
     if scenario == "layer_stress_probe":
         summary, timeseries = run_layer_stress_probe(config, backend)
@@ -108,11 +101,13 @@ def run_quantum_scenario(config: Dict, backend: QuantumBackend, log_path: Path, 
         timeseries = {"t": np.array([])}
     if not available and "status" not in summary:
         summary["status"] = "unavailable"
-
-    (result_dir / "metrics.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
-    np.savez(result_dir / "timeseries.npz", **timeseries)
-    with log_path.open("w", encoding="utf-8") as logf:
-        for line in log_lines:
-            logf.write(line + "\n")
-        logf.write(f"summary={json.dumps(summary)}\n")
-    return summary
+    # basic log
+    try:
+        with log_path.open("w", encoding="utf-8") as logf:
+            logf.write(f"backend={backend.name}\n")
+            logf.write(f"scenario={scenario}\n")
+            logf.write(f"seed={config.get('seed', 42)}\n")
+            logf.write(f"summary={json.dumps(summary)}\n")
+    except Exception:
+        pass
+    return summary, timeseries

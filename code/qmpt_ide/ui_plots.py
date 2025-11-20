@@ -81,7 +81,21 @@ class PlotPanel(ttk.Frame):
         img_path = result_dir / "plot.png"
         fig.savefig(img_path)
         plt.close(fig)
-        self._write(f"Plot saved to {img_path}")
+        note = f"Plot saved to {img_path}"
+        # If run belongs to a dataset, surface ensemble summary
+        ds_note = ""
+        ds_id = getattr(self.state.current_run, "dataset_id", None)
+        if ds_id:
+            ds_metrics = result_dir.parents[2] / "datasets" / ds_id / "ensemble_metrics.json"
+            if ds_metrics.exists():
+                try:
+                    import json
+
+                    summary = json.loads(ds_metrics.read_text(encoding="utf-8"))
+                    ds_note = f"\nDataset {ds_id}: {summary}"
+                except Exception:
+                    ds_note = f"\nDataset {ds_id}: (could not read ensemble metrics)"
+        self._write(note + ds_note)
 
     def _write(self, text: str) -> None:
         self.canvas.configure(state="normal")

@@ -40,6 +40,19 @@ class RunsPanel(ttk.Frame):
             controls, text="Run", style="Accent.TButton", command=self._start_run
         ).grid(row=0, column=2, rowspan=2, padx=6)
 
+        # Ensemble controls
+        ensemble_frame = ttk.Frame(self)
+        ensemble_frame.pack(fill=tk.X, pady=(6, 0))
+        self.ensemble_var = tk.BooleanVar(value=False)
+        ttk.Checkbutton(ensemble_frame, text="Ensemble mode", variable=self.ensemble_var).grid(row=0, column=0, sticky="w")
+        ttk.Label(ensemble_frame, text="n_runs").grid(row=0, column=1, padx=4)
+        self.n_runs_entry = ttk.Entry(ensemble_frame, width=6)
+        self.n_runs_entry.insert(0, "4")
+        self.n_runs_entry.grid(row=0, column=2)
+        ttk.Label(ensemble_frame, text="Dataset note").grid(row=0, column=3, padx=4)
+        self.dataset_desc = ttk.Entry(ensemble_frame, width=25)
+        self.dataset_desc.grid(row=0, column=4, padx=2, sticky="w")
+
         ttk.Label(self, text="Run history").pack(anchor=tk.W, pady=(8, 2))
         self.history = tk.Listbox(
             self,
@@ -71,24 +84,11 @@ class RunsPanel(ttk.Frame):
         for rec in self.state.registry.latest():
             ts = datetime.fromtimestamp(rec.timestamp).isoformat(timespec="seconds")
             tag = badge.get(rec.backend, "?")
+            ds = f" ds={rec.dataset_id}" if getattr(rec, "dataset_id", None) else ""
             self.history.insert(
-                tk.END, f"{rec.run_id} [{tag}:{rec.backend} {rec.status}] {ts}"
+                tk.END, f"{rec.run_id} [{tag}:{rec.backend} {rec.status}]{ds} {ts}"
             )
         self.state.current_run = None
-
-    def _start_run(self) -> None:
-        config_rel = self.config_entry.get().strip()
-        if not config_rel:
-            messagebox.showerror("Error", "Select a config path")
-            return
-        backend = BackendType(self.backend_var.get())
-        config_path = (repo_root() / config_rel).resolve()
-        if not config_path.exists():
-            messagebox.showerror("Error", f"Config not found: {config_path}")
-            return
-        threading.Thread(
-            target=self._run_thread, args=(config_path, backend), daemon=True
-        ).start()
 
     def _run_thread(self, config_path: Path, backend: BackendType) -> None:
         result = self.state.sim_runner.run(config_path, backend)
@@ -97,6 +97,17 @@ class RunsPanel(ttk.Frame):
         self._show_log(result.log_path)
         if self.on_plot:
             self.on_plot(result.results_path)
+
+    def _ensemble_thread(self, config_path: Path, backend: BackendType, overrides: dict) -> None:
+        dataset_id, results = self.state.sim_runner.run_ensemble(config_path, backend, overrides)
+        for res in results:
+            res.dataset_id = dataset_id or res.dataset_id
+            self._record_run(res, config_path)
+        if results:
+            self._refresh_history()
+            self._show_log(results[-1].log_path)
+            if self.on_plot:
+                self.on_plot(results[-1].results_path)
 
     def _record_run(self, result: RunResult, config_path: Path) -> None:
         record = RunRecord(
@@ -110,6 +121,7 @@ class RunsPanel(ttk.Frame):
             metrics=result.metrics,
             git_commit=result.git_commit,
             config_hash=result.config_hash,
+            dataset_id=result.dataset_id,
         )
         self.state.registry.add(record)
 
@@ -136,3 +148,28 @@ class RunsPanel(ttk.Frame):
         self.log_view.delete("1.0", tk.END)
         self.log_view.insert(tk.END, content)
         self.log_view.configure(state="disabled")
+
+    def _start_run(self) -> None:
+        config_rel = self.config_entry.get().strip()
+        if not config_rel:
+            messagebox.showerror("Error", "Select a config path")
+            return
+        backend = BackendType(self.backend_var.get())
+        config_path = (repo_root() / config_rel).resolve()
+        if not config_path.exists():
+            messagebox.showerror("Error", f"Config not found: {config_path}")
+            return
+        if self.ensemble_var.get():
+            try:
+                n_runs = int(self.n_runs_entry.get())
+            except Exception:
+                n_runs = 1
+            desc = self.dataset_desc.get().strip()
+            overrides = {"enabled": True, "n_runs": n_runs, "description": desc}
+            threading.Thread(
+                target=self._ensemble_thread, args=(config_path, backend, overrides), daemon=True
+            ).start()
+        else:
+            threading.Thread(
+                target=self._run_thread, args=(config_path, backend), daemon=True
+            ).start()

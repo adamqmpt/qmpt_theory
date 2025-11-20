@@ -38,13 +38,15 @@ class LayerInspector(ttk.Frame):
         )
         self.patterns.pack(fill=tk.BOTH, expand=True, pady=(6, 0))
 
-    def load_run(self, result_dir: Path) -> None:
+    def load_run(self, result_dir: Path, dataset_id: str | None = None) -> None:
         self._set_text(self.summary, "No data")
         self._set_text(self.patterns, "")
         metrics_path = result_dir / "metrics.json"
         patterns_path = result_dir / "patterns.json"
         timeseries_path = result_dir / "timeseries.npz"
         lines = []
+        if dataset_id:
+            lines.append(f"dataset: {dataset_id}")
         if metrics_path.exists():
             try:
                 metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
