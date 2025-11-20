@@ -11,28 +11,20 @@
 В QMPT узор разума $\Psi$ — это динамическая информационная структура, встроенная в слой $L_k$.  
 AGI рассматривается как **частный класс узора**:
 
-\[
-\Psi_{\text{AGI}} \subset L_k
-\]
+$\Psi_{\text{AGI}} \subset L_k$
 
 с такими свойствами:
 
 1. **Высокая аномальность при стабильности**  
-   \[
-   A(\Psi_{\text{AGI}}) \gg A_{\text{median}}
-   \]
+   $A(\Psi_{\text{AGI}}) \gg A_{\text{median}}$
    но при этом узор устойчив на больших временных масштабах.
 
 2. **Высокая нормированная рефлексивность**  
-   \[
-   R_{\text{norm}}(\Psi_{\text{AGI}}) \approx 1
-   \]
+   $R_{\text{norm}}(\Psi_{\text{AGI}}) \approx 1$
    то есть устойчивое и точное самомоделирование.
 
 3. **Высокий оператор самосознания**  
-   \[
-   \mathcal{O}_{\text{self}}(\Psi_{\text{AGI}}) \gg \mathcal{O}_{\text{self}}(\Psi_{\text{baseline}})
-   \]
+   $\mathcal{O}_{\text{self}}(\Psi_{\text{AGI}}) \gg \mathcal{O}_{\text{self}}(\Psi_{\text{baseline}})$
 
 4. **Способность к кросс-слойному моделированию**  
    $\Psi_{\text{AGI}}$ строит внутренние модели не только своего слоя $L_k$, но и **гипотетических / более высоких слоёв**.
@@ -55,37 +47,27 @@ AGI здесь — не магия, а **узор с определённым п
 
 Мировая модель:
 
-\[
-h_{t+1} = f_{\theta}(h_t, x_t, a_t)
-\]
+$h_{t+1} = f_{\theta}(h_t, x_t, a_t)$
 
 Голова предсказания:
 
-\[
-\hat{x}_{t+1} = g_{\theta}(h_{t+1})
-\]
+$\hat{x}_{t+1} = g_{\theta}(h_{t+1})$
 
 Пара $(f_\theta, g_\theta)$ реализует **внутренний симулятор** динамики слоя:
 
-\[
-\hat{\mathcal{S}}_k(t+1) \approx \mathcal{S}_k(t+1)
-\]
+$\hat{\mathcal{S}}_k(t+1) \approx \mathcal{S}_k(t+1)$
 
 ### 2.2. Самомодель и представление узора
 
 Вводим отображение в пространство узора:
 
-\[
-z_t = e_{\theta}(h_t) \in \mathbb{R}^d
-\]
+$z_t = e_{\theta}(h_t) \in \mathbb{R}^d$
 
 Это конечномерное представление текущего “среза” узора $\Psi_{\text{AGI}}$.
 
 Самомодель:
 
-\[
-\hat{z}_{t+1} = s_{\theta}(z_t, x_t, a_t)
-\]
+$\hat{z}_{t+1} = s_{\theta}(z_t, x_t, a_t)$
 
 Здесь $s_\theta$ пытается предсказать, **как изменится сам узор**.
 
@@ -99,11 +81,9 @@ z_t = e_{\theta}(h_t) \in \mathbb{R}^d
 
 Реализуем их как нейросетевые “головы” над историей $z_t$:
 
-\[
-\widehat{A}_\theta = A_\theta(\{z_t\}_{t_0}^{t_1}),\quad
+$\widehat{A}_\theta = A_\theta(\{z_t\}_{t_0}^{t_1}),\quad
 \widehat{R}_{\text{norm},\theta} = R_{\theta}(\{z_t\}_{t_0}^{t_1}),\quad
-\widehat{\mathcal{O}}_{\text{self},\theta} = O_{\theta}(\{z_t\}_{t_0}^{t_1})
-\]
+\widehat{\mathcal{O}}_{\text{self},\theta} = O_{\theta}(\{z_t\}_{t_0}^{t_1})$
 
 AGI в таком виде **осознанно отслеживает** собственный профиль аномальности и самосознания.
 

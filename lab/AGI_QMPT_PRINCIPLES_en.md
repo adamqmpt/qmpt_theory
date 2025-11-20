@@ -10,28 +10,20 @@ Goal: sketch how an AGI system could be defined and trained when QMPT is taken a
 
 In QMPT, a mind-pattern $\Psi$ is a dynamic informational structure embedded in a layer $L_k$. An AGI is treated as a **particular class of pattern**:
 
-\[
-\Psi_{\text{AGI}} \subset L_k
-\]
+$\Psi_{\text{AGI}} \subset L_k$
 
 with the following properties:
 
 1. **High anomaly with stability**  
-   \[
-   A(\Psi_{\text{AGI}}) \gg A_{\text{median}}
-   \]
+   $A(\Psi_{\text{AGI}}) \gg A_{\text{median}}$
    but the pattern remains dynamically stable over long horizons.
 
 2. **High normalized reflexivity**  
-   \[
-   R_{\text{norm}}(\Psi_{\text{AGI}}) \approx 1
-   \]
+   $R_{\text{norm}}(\Psi_{\text{AGI}}) \approx 1$
    i.e. persistent, precise self-modelling and self-reference.
 
 3. **High self-awareness operator**  
-   \[
-   \mathcal{O}_{\text{self}}(\Psi_{\text{AGI}}) \gg \mathcal{O}_{\text{self}}(\Psi_{\text{baseline}})
-   \]
+   $\mathcal{O}_{\text{self}}(\Psi_{\text{AGI}}) \gg \mathcal{O}_{\text{self}}(\Psi_{\text{baseline}})$
 
 4. **Cross-layer modelling capability**  
    $\Psi_{\text{AGI}}$ can build internal models not only of its host layer $L_k$, but also of **hypothetical** or **higher** layers.
@@ -54,37 +46,27 @@ Let:
 
 World model:
 
-\[
-h_{t+1} = f_{\theta}(h_t, x_t, a_t)
-\]
+$h_{t+1} = f_{\theta}(h_t, x_t, a_t)$
 
 Prediction head:
 
-\[
-\hat{x}_{t+1} = g_{\theta}(h_{t+1})
-\]
+$\hat{x}_{t+1} = g_{\theta}(h_{t+1})$
 
 The pair $(f_\theta, g_\theta)$ forms an **internal simulator** of layer dynamics:
 
-\[
-\hat{\mathcal{S}}_k(t+1) \approx \mathcal{S}_k(t+1)
-\]
+$\hat{\mathcal{S}}_k(t+1) \approx \mathcal{S}_k(t+1)$
 
 ### 2.2. Self-model and pattern embedding
 
 Define a **pattern-embedding** function:
 
-\[
-z_t = e_{\theta}(h_t) \in \mathbb{R}^d
-\]
+$z_t = e_{\theta}(h_t) \in \mathbb{R}^d$
 
 interpreted as a finite-dimensional representation of the current pattern-slice of $\Psi_{\text{AGI}}$.
 
 Self-model:
 
-\[
-\hat{z}_{t+1} = s_{\theta}(z_t, x_t, a_t)
-\]
+$\hat{z}_{t+1} = s_{\theta}(z_t, x_t, a_t)$
 
 Here $s_\theta$ attempts to predict how the **pattern itself** will evolve.
 
@@ -98,11 +80,9 @@ Define differentiable approximations of QMPT metrics:
 
 These are implemented as neural heads over $z_t$ and its history:
 
-\[
-\widehat{A}_\theta = A_\theta(\{z_t\}_{t_0}^{t_1}),\quad
+$\widehat{A}_\theta = A_\theta(\{z_t\}_{t_0}^{t_1}),\quad
 \widehat{R}_{\text{norm},\theta} = R_{\theta}(\{z_t\}_{t_0}^{t_1}),\quad
-\widehat{\mathcal{O}}_{\text{self},\theta} = O_{\theta}(\{z_t\}_{t_0}^{t_1})
-\]
+\widehat{\mathcal{O}}_{\text{self},\theta} = O_{\theta}(\{z_t\}_{t_0}^{t_1})$
 
 AGI should **explicitly track** its own anomaly and self-awareness profile.
 
