@@ -1,0 +1,13 @@
+# Ignore everything by default; allow Python scripts and README files.
+*
+!*/
+!.gitignore
+!*.py
+!**/README.md
+!QMPT_Experimental_Results_v0_1.md
+!**/results/
+!**/results/*.json
+!**/results/*.md
+!test/qmpt_pattern_transfer_v1/logs/run_*.json
+!test_ideas/qmpt_pattern_transfer_v1/logs/run_*.json
+qmpt_lab/**

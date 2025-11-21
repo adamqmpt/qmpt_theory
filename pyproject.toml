@@ -9,7 +9,7 @@ description = "QMPT – Quantum Meta-Pattern Theory tooling (IDE + core)"
 authors = [{name = "QMPT"}]
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = ["numpy>=1.24"]
 
 [project.optional-dependencies]
 ide = ["matplotlib"]
@@ -23,5 +23,4 @@ qmpt-runner = "code.qmpt_runner:main"
 package-dir = {"": "code"}
 
 [tool.setuptools.packages.find]
-where = ["code"]
-
+where = ["code", "."]

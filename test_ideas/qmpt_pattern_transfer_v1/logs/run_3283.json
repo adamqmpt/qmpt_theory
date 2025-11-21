@@ -1,0 +1,31 @@
+{
+  "run_id": "run_3283",
+  "seed": 2025,
+  "env": {
+    "size": 10,
+    "max_steps": 50
+  },
+  "agent": {
+    "internal_dim": 16,
+    "self_model_dim": 8,
+    "seed": 2025
+  },
+  "metrics": {
+    "continuity": {
+      "mid_to_final": 0.6627998686299544,
+      "mid_to_transferred": 0.9432746100153242
+    },
+    "behavior": {
+      "copy_divergence": 0.6,
+      "transfer_divergence": 0.7333333333333333
+    },
+    "awareness": {
+      "mean_before_transfer": 0.43912377759814264,
+      "mean_after_transfer": 0.4866669108470281
+    }
+  },
+  "episode": {
+    "length": 50,
+    "total_reward": 7.0
+  }
+}

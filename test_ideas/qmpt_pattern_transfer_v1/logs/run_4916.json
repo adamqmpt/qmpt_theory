@@ -1,0 +1,31 @@
+{
+  "run_id": "run_4916",
+  "seed": 777,
+  "env": {
+    "size": 10,
+    "max_steps": 50
+  },
+  "agent": {
+    "internal_dim": 16,
+    "self_model_dim": 8,
+    "seed": 777
+  },
+  "metrics": {
+    "continuity": {
+      "mid_to_final": 0.840272347020931,
+      "mid_to_transferred": 0.4977669230213751
+    },
+    "behavior": {
+      "copy_divergence": 0.8,
+      "transfer_divergence": 0.7
+    },
+    "awareness": {
+      "mean_before_transfer": 0.3809406566619873,
+      "mean_after_transfer": 0.47592164973417916
+    }
+  },
+  "episode": {
+    "length": 50,
+    "total_reward": 8.0
+  }
+}
