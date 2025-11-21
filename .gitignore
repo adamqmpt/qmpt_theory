@@ -8,6 +8,5 @@
 !**/results/
 !**/results/*.json
 !**/results/*.md
-!test/qmpt_pattern_transfer_v1/logs/run_*.json
-!test_ideas/qmpt_pattern_transfer_v1/logs/run_*.json
+**/logs/
 qmpt_lab/**
