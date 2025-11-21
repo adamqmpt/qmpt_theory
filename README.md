@@ -14,6 +14,12 @@
 - Logs: written to `qmpt_lab/logs/` (JSONL: `qmpt_runs_<run_id>.jsonl`, CSV: `qmpt_summary_<run_id>.csv`). Inspect with `python -m qmpt_lab.analyze_continuity <jsonl>` or `python -m qmpt_lab.analyze_divergence <jsonl>`.
 - Components: advanced world/agent in `qmpt_lab/advanced/`, high-load orchestration in `qmpt_lab/high_load.py`, convenience launchers `run_qmpt_high_load.py`, `run_qmpt_stress.py`, `run_qmpt_lab.py`.
 
+## QMPT Pattern Transfer Test v1
+
+- Self-contained experiment in `test_ideas/qmpt_pattern_transfer_v1/` covering pattern continuity, copy vs transfer behavior, and a self-awareness proxy.
+- Run: `python test_ideas/qmpt_pattern_transfer_v1/runner.py` (writes per-run logs and results locally; logs are ignored in git).
+- Outputs: aggregated `test_ideas/qmpt_pattern_transfer_v1/results/summary.json` and `summary.md` with per-run metrics and aggregate stats.
+
 # English version
 
 ## 1. What this repository is
