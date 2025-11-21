@@ -4,16 +4,6 @@
 
 ---
 
-## QMPT Lab Simulation (qmpt-lab-simulation)
-
-- Purpose: high-load multi-layer simulations of pattern agents (Ψ) in a 2D world to measure continuity, clone divergence, transfer robustness, and anomaly impact. Outputs JSONL (full events) and CSV (aggregated metrics) for analysis.
-- Quick start (repository root):
-  - 10-second high-load run: `python run_qmpt_high_load.py --target-runtime-sec 10` (auto-calibration to approximate target runtime).
-  - Stress runner with manual knobs: `python run_qmpt_stress.py --world-size 32 32 --n-agents 12 --n-episodes 20 --calibrate-target-sec 10`.
-  - Basic lab runner (1D baseline): `python run_qmpt_lab.py --size 10 --max-steps 50 --mid-step 20` (package-style launcher).
-- Logs: written to `qmpt_lab/logs/` (JSONL: `qmpt_runs_<run_id>.jsonl`, CSV: `qmpt_summary_<run_id>.csv`). Inspect with `python -m qmpt_lab.analyze_continuity <jsonl>` or `python -m qmpt_lab.analyze_divergence <jsonl>`.
-- Components: advanced world/agent in `qmpt_lab/advanced/`, high-load orchestration in `qmpt_lab/high_load.py`, convenience launchers `run_qmpt_high_load.py`, `run_qmpt_stress.py`, `run_qmpt_lab.py`.
-
 ## QMPT Pattern Transfer Test v1
 
 - Self-contained experiment in `test_ideas/qmpt_pattern_transfer_v1/` covering pattern continuity, copy vs transfer behavior, and a self-awareness proxy.
